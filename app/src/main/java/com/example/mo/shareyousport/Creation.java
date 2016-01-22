@@ -23,7 +23,7 @@ public class Creation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(Creation.this, Interface.class); //Lien provisoire
-                startActivity(myIntent);
+                startActivity(myIntent);// Démarre l'activité interface
             }
         });
 
