@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/purple"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.mo.shareyousport.Creation"
+    tools:showIn="@layout/activity_creation">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+
+        android:id="@+id/relativeLayout">
+
+        <ImageView
+        android:id="@+id/minus"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+        android:src="@drawable/minus"
+            android:layout_alignTop="@+id/plus"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageView
+        android:id="@+id/plus"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+        android:src="@drawable/plus"
+            android:layout_above="@+id/equipement"
+            android:layout_toRightOf="@+id/equipement"
+            android:layout_toEndOf="@+id/equipement" />
+
+        <ImageView
+            android:id="@+id/equipement"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/equipement"
+            android:layout_above="@+id/send"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:id="@+id/send"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/send"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/plus"
+            android:layout_toEndOf="@+id/plus"
+            android:layout_marginBottom="61dp" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/back"
+            android:layout_alignTop="@+id/send"
+            android:layout_toLeftOf="@+id/minus"
+            android:layout_toStartOf="@+id/minus" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/pin"
+            android:layout_marginTop="106dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:hint="Votre lieu de pratique"
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText2"
+            android:layout_alignBottom="@+id/clock"
+            android:layout_alignLeft="@+id/editText"
+            android:layout_alignStart="@+id/editText"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:hint="L'heure de votre activité"
+            />
+
+        <ImageView
+            android:id="@+id/clock"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/clock"
+            android:layout_marginTop="43dp"
+            android:layout_below="@+id/pin"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:id="@+id/pin"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/pin"
+            android:layout_marginTop="96dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText3"
+            android:layout_alignBottom="@+id/minus"
+            android:layout_toLeftOf="@+id/minus"
+            android:layout_alignLeft="@+id/send"
+            android:layout_alignStart="@+id/send"
+            android:hint="0"
+            android:gravity="center"
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText4"
+            android:layout_alignBottom="@+id/equipement"
+            android:layout_alignLeft="@+id/plus"
+            android:layout_alignStart="@+id/plus"
+            android:hint="Equipement nécessaire"
+            android:layout_alignRight="@+id/back"
+            android:layout_alignEnd="@+id/back" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox"
+            android:layout_above="@+id/back"
+            android:layout_toRightOf="@+id/back"
+            android:checked="false"
+            android:layout_alignTop="@+id/editText4"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

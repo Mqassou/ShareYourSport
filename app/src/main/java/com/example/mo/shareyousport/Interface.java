@@ -19,14 +19,13 @@ public class Interface extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interface);
 
-        //Lien pour changer d'activité
+
         ImageView img = (ImageView) findViewById(R.id.create);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(Interface.this, Creation.class);
                 startActivity(myIntent);
-
             }
         });
     }
