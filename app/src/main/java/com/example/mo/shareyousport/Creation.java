@@ -22,7 +22,7 @@ public class Creation extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(Creation.this, Interface.class);
+                Intent myIntent = new Intent(Creation.this, Interface.class); //Lien provisoire
                 startActivity(myIntent);
             }
         });

@@ -24,7 +24,7 @@ public class Interface extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(Interface.this, Creation.class);
+                Intent myIntent = new Intent(Interface.this, Creation.class); //Lien provisoire
                 startActivity(myIntent);
             }
         });
@@ -33,7 +33,7 @@ public class Interface extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        
+
         getMenuInflater().inflate(R.menu.menu_interface, menu);
         return true;
     }
