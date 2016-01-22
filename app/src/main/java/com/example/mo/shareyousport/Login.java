@@ -38,7 +38,7 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class Login extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-
+// test commentaire a supprimer
     /**
      * Id to identity READ_CONTACTS permission request.
      */
