@@ -7,7 +7,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class Creation extends AppCompatActivity {
 
@@ -16,6 +20,22 @@ public class Creation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creation);
 
+
+        ListView listeSport = (ListView) findViewById(R.id.Liste_sport);
+
+        ArrayList<String> listeItem = new ArrayList<>();
+        listeItem.add(getString(R.string.Football));
+        listeItem.add(getString(R.string.Rugby));
+        listeItem.add(getString(R.string.Basketball));
+        listeItem.add(getString(R.string.Tennis));
+        listeItem.add(getString(R.string.Badminton));
+        listeItem.add(getString(R.string.Volley_ball));
+        listeItem.add(getString(R.string.Handball));
+        listeItem.add(getString(R.string.Course));
+        listeItem.add(getString(R.string.Cyclisme));
+
+        ArrayAdapter<String> itemsAdapter =new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, listeItem);
+        listeSport.setAdapter(itemsAdapter);
 
 
         ImageView img = (ImageView) findViewById(R.id.back);

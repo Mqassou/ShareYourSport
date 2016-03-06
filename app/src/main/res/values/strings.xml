@@ -8,9 +8,9 @@
     <string name="Basketball">Basketball</string>
     <string name="Tennis">Tennis</string>
     <string name="Badminton">Badminton</string>
-    <string name="Volley-ball">Volley-ball</string>
+    <string name="Volley_ball">Volley-ball</string>
     <string name="Handball">Handball</string>
-    <string name="Course">Course à pieds</string>
+    <string name="Course">Course à pied</string>
     <string name="Cyclisme">Cyclisme</string>
     <!-- fin Liste des sports-->
     <string name="prompt_email">Email</string>
@@ -26,4 +26,5 @@
     </string>
     <string name="social">Login with</string>
     <string name="title_activity_profil">Profil</string>
+    <string name="title_activity_parametre_utilisateur">parametre_utilisateur</string>
 </resources>

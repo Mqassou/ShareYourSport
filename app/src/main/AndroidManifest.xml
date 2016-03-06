@@ -25,6 +25,10 @@
         <activity
             android:name=".Profil"
             android:label="@string/title_activity_profil"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".parametre_utilisateur"
+            android:label="@string/title_activity_parametre_utilisateur"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
