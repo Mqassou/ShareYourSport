@@ -29,6 +29,10 @@
         <activity
             android:name=".parametre_utilisateur"
             android:label="@string/title_activity_parametre_utilisateur"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Signup"
+            android:label="@string/title_activity_signup"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
