@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ShareYouSport.iml" filepath="$PROJECT_DIR$/ShareYouSport.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/sportcollaboratif.iml" filepath="$PROJECT_DIR$/.idea/sportcollaboratif.iml" />
       <module fileurl="file://$PROJECT_DIR$/sportcollaboratif.iml" filepath="$PROJECT_DIR$/sportcollaboratif.iml" />
     </modules>
   </component>
