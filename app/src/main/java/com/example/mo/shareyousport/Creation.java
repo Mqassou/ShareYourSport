@@ -17,6 +17,7 @@ public class Creation extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //TestCommitMax2
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creation);
 
