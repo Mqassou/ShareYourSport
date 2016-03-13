@@ -20,7 +20,7 @@
         android:src="@drawable/logo"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="false" />
 
     <ImageView
         android:id="@+id/event"

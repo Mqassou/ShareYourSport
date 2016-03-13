@@ -24,7 +24,7 @@ public class Interface extends AppCompatActivity {
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(Interface.this, Profil.class);
+                Intent myIntent = new Intent(Interface.this, Login.class);
                 startActivity(myIntent);
             }
         });
