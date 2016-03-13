@@ -28,6 +28,15 @@ public class Interface extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+
+        ImageView imgJoin = (ImageView) findViewById(R.id.join);
+        imgJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(Interface.this, MapsActivity.class);
+                startActivity(myIntent);
+            }
+        });
     }
 
     @Override
