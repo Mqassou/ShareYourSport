@@ -20,7 +20,7 @@ public class MapsWindow implements InfoWindowAdapter {
     @Override
     public View getInfoWindow(Marker marker) {
         View v = inflater.inflate(R.layout.info_window, null);
-        if (marker != null) {
+        if (marker.getTitle() != null) {
             textViewTitle = (TextView) v.findViewById(R.id.textViewTitle);
             textViewTitle.setText(marker.getTitle());
         }

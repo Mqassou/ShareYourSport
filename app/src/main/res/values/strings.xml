@@ -30,4 +30,11 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_signup">Signup</string>
     <string name="title_activity_maps">Map</string>
+    <string name="info_window_participants">Participants</string>
+    <string name="info_window_equipments">Need equipements</string>
+    <string name="info_window_gps">Coordonnées GPS</string>
+    <string name="info_window_address">Adresse à récupérer via script</string>
+    <string name="info_window_participantsNumber">Nombre de participant à récupérer</string>
+    <string name="info_window_equipmentsInfo">Equipement à récupérer</string>
+    <string name="info_window_gpsCoordonate">coordonnées</string>
 </resources>
