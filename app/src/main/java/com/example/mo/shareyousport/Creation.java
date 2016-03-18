@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -18,9 +19,11 @@ public class Creation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //TestCommitMax2
+        Intent thisIntent = getIntent();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creation);
 
+        String textPosition = thisIntent.getStringExtra("donnée");
 
         ListView listeSport = (ListView) findViewById(R.id.Liste_sport);
 
@@ -39,6 +42,27 @@ public class Creation extends AppCompatActivity {
         listeSport.setAdapter(itemsAdapter);
 
 
+
+        EditText txt = (EditText) findViewById(R.id.editText);
+
+
+
+        if(textPosition != null){
+            txt.setText(textPosition);
+        }
+
+        txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(Creation.this, MapsActivityCreation.class);
+                startActivity(myIntent);
+            }
+        });
+
+
+
+
+
         ImageView img = (ImageView) findViewById(R.id.back);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +71,7 @@ public class Creation extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+
 
 
     }
