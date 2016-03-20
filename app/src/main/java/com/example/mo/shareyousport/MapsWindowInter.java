@@ -40,6 +40,7 @@ class MapsWindowInter implements InfoWindowAdapter{
 
     LayoutInflater inflater = null;
 
+
     MapsWindowInter(LayoutInflater inflater){
         this.inflater = inflater;
 
@@ -50,6 +51,7 @@ class MapsWindowInter implements InfoWindowAdapter{
         View myContentsView = inflater.inflate(R.layout.info_window_inter, null);
 
         LatLng latLng = marker.getPosition();
+
 
 
         TextView tvParticipants = ((TextView)myContentsView.findViewById(R.id.participants_number));

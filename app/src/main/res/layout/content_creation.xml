@@ -75,7 +75,8 @@
         android:hint="Votre lieu de pratique"
         android:layout_marginBottom="42dp"
         android:layout_above="@+id/clock"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColorHint="#ffffff" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -87,7 +88,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:hint="L'heure de votre activité"
-        />
+        android:textColorHint="#ffffff" />
 
     <ImageView
         android:id="@+id/clock"
@@ -115,7 +116,8 @@
         android:layout_alignStart="@+id/send"
         android:hint="0"
         android:gravity="center"
-        />
+        android:textColorHint="#ffffff"
+        android:textColorLink="#ffffff" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -126,7 +128,8 @@
         android:layout_alignStart="@+id/plus"
         android:hint="Equipement nécessaire"
         android:layout_alignRight="@+id/back"
-        android:layout_alignEnd="@+id/back" />
+        android:layout_alignEnd="@+id/back"
+        android:textColorHint="#ffffff" />
 
     <CheckBox
         android:layout_width="wrap_content"

@@ -1,5 +1,7 @@
 package com.example.mo.shareyousport;
 
+
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -59,6 +61,38 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.Iterator;
+import java.util.Vector;
+
+
 /**
  * Created by Max on 13/03/2016.
  */
@@ -66,9 +100,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,OnInfoWindowClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,OnInfoWindowClickListener,LocationListener {
+    private SportEventGroup userEvents = new SportEventGroup();
+
+    //mettre en place en methode pour récupérer tous les évenements en bdd ici
 
     private GoogleMap mMap;
+
+    private LocationManager locationManager;
+
+    private static final long MIN_TIME = 400;
+
+    private static final float MIN_DISTANCE = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +121,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this); //You can also use LocationManager.GPS_PROVIDER and LocationManager.PASSIVE_PROVIDER
     }
 
 
@@ -92,16 +138,64 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        SportEvent intermUserEvent;
         mMap = googleMap;
-
+        userEvents.addSports(new SportEvent(0, "Stade de Deuil", "6 Rue Jean Bouin, 95170 Deuil-la-Barre", new LatLng(48.968628, 2.3222098999999616), 11, 1, true));
 
         //mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
         // Add a marker in Sydney and move the camera
         LatLng SYDNEY = new LatLng(-34, 151);
         //Marker sydney = mMap.addMarker(new MarkerOptions().position(SYDNEY);
-        addMarker(mMap, -34, 151, R.string.info_window_participants, "Check participant", R.string.info_window_equipments, R.string.info_window_equipmentsInfo, R.string.info_window_gps,R.string.info_window_gps,R.string.info_window_participants);
-       // sydney.showInfoWindow();
-        mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
+
+        Iterator<SportEvent> it = userEvents.iterator();
+        while (it.hasNext()) {
+
+            intermUserEvent = it.next();
+
+            addMarker(mMap, intermUserEvent.getCoord().latitude, intermUserEvent.getCoord().longitude, R.string.info_window_participants, intermUserEvent.getPlayerIn() + "/" + intermUserEvent.getPlayersNeeded(), R.string.info_window_equipments, R.string.info_window_equipmentsInfo, R.string.info_window_gps, R.string.info_window_gps, R.string.info_window_participants);
+            // sydney.showInfoWindow();
+        }
+        //mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
+
+        // Setting a custom info window adapter for the google map
+        googleMap.setInfoWindowAdapter(new InfoWindowAdapter() {
+
+            // Use default InfoWindow frame
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            // Defines the contents of the InfoWindow
+            @Override
+            public View getInfoContents(Marker arg0) {
+
+                // Getting view from the layout file info_window_layout
+                View v = getLayoutInflater().inflate(R.layout.info_window_inter, null);
+
+                // Getting the position from the marker
+                LatLng latLng = arg0.getPosition();
+
+                SportEvent markerEvent = userEvents.findSportByCoord(latLng);
+
+                TextView tvParticipants = ((TextView)v.findViewById(R.id.participants_number));
+                tvParticipants.setText(markerEvent.getPlayerIn()+"/"+markerEvent.getPlayersNeeded());
+                TextView tvEquipments = ((TextView)v.findViewById(R.id.equipments));
+                tvEquipments.setText("Equipements à déterminer via script");
+                TextView tvGps = ((TextView)v.findViewById(R.id.gps_coordonate));
+                tvGps.setText("Coordonnée GPS: "+latLng.latitude+","+latLng.longitude);
+                TextView tvName = ((TextView)v.findViewById(R.id.localName));
+                tvName.setText(markerEvent.getName());
+                TextView tvAddress = ((TextView)v.findViewById(R.id.address));
+                tvAddress.setText(markerEvent.getAdress());
+
+                // Returning the view containing InfoWindow contents
+                return v;
+
+            }
+        });
+
+
         mMap.setOnInfoWindowClickListener(this);
 
 
@@ -114,8 +208,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void addMarker(GoogleMap map, double lat, double lon,
-                           int title,String participants ,int snippet, int equipments, int snippet2, int gps, int snippet3) {
+                           int title, String participants, int snippet, int equipments, int snippet2, int gps, int snippet3) {
         map.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+        mMap.animateCamera(cameraUpdate);
+        //locationManager.removeUpdates(this);
+    }
+
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
     }
 
 }
