@@ -8,6 +8,7 @@ import java.util.Vector;
 /**
  * Created by Max on 20/03/2016.
  * CLASSE SUPPOSER CONTENIR TOUS LES EVENEMENTS
+ * 
  */
 public class SportEventGroup implements Iterable<SportEvent>{
     Vector<SportEvent> allSports = new Vector<SportEvent>();
