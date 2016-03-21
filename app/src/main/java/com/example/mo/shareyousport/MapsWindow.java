@@ -8,6 +8,7 @@ import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.model.Marker;
 /**
  * Created by Max on 14/03/2016.
+ * PAS ENCORE UTILISER
  */
 public class MapsWindow implements InfoWindowAdapter {
     LayoutInflater inflater = null;

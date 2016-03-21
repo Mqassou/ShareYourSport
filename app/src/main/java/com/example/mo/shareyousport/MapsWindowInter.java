@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 
 /**
  * Created by Max on 14/03/2016.
+ * FINALEMENT INUTILISER
  */
 
 class MapsWindowInter implements InfoWindowAdapter{

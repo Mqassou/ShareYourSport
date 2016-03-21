@@ -95,6 +95,7 @@ import java.util.Vector;
 
 /**
  * Created by Max on 13/03/2016.
+ * VOIR LES COMMENTAIRES DE MapsActivity SI BESOIN
  */
 
 
@@ -192,6 +193,8 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
     public void onProviderDisabled(String provider) {
     }
 
+
+    //Methode utilisé pour changer d'un activité tout en passant des information à la nouvelle activité lorsque l'utilisateur clique sur un marker
     @Override
     public boolean onMarkerClick(Marker marker) {
         // TODO Auto-generated method stub

@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by Max on 18/03/2016.
+ * CLASS REPRESENTANT UN EVENEMENT
  */
 public class SportEvent {
     private int id;
@@ -22,7 +23,6 @@ public class SportEvent {
         playersNeeded = 0;
         playerIn = 0;
         equipment = false;
-
     }
 
     public SportEvent(int _id, String _name, String _adress, LatLng _coord, int _playersNeeded, int _playerIn, boolean _equipment){

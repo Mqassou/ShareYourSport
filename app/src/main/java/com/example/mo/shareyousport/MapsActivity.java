@@ -122,6 +122,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        //Utilisé pour récupérer la position de l'utilisateur
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this); //You can also use LocationManager.GPS_PROVIDER and LocationManager.PASSIVE_PROVIDER
     }
@@ -140,13 +141,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         SportEvent intermUserEvent;
         mMap = googleMap;
+        //Création d'un evenement test
         userEvents.addSports(new SportEvent(0, "Stade de Deuil", "6 Rue Jean Bouin, 95170 Deuil-la-Barre", new LatLng(48.968628, 2.3222098999999616), 11, 1, true));
 
-        //mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
-        // Add a marker in Sydney and move the camera
-        LatLng SYDNEY = new LatLng(-34, 151);
-        //Marker sydney = mMap.addMarker(new MarkerOptions().position(SYDNEY);
 
+        /* Test inutilisé désormais
+        mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
+         Add a marker in Sydney and move the camera
+        LatLng SYDNEY = new LatLng(-34, 151);
+        Marker sydney = mMap.addMarker(new MarkerOptions().position(SYDNEY);
+        */
+
+
+        //Méthode utilisé pour parcourir l'ensemble des évenements existants
         Iterator<SportEvent> it = userEvents.iterator();
         while (it.hasNext()) {
 
@@ -155,8 +162,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             addMarker(mMap, intermUserEvent.getCoord().latitude, intermUserEvent.getCoord().longitude, R.string.info_window_participants, intermUserEvent.getPlayerIn() + "/" + intermUserEvent.getPlayersNeeded(), R.string.info_window_equipments, R.string.info_window_equipmentsInfo, R.string.info_window_gps, R.string.info_window_gps, R.string.info_window_participants);
             // sydney.showInfoWindow();
         }
-        //mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
 
+
+        /* Auparavant utilisé pour adapter la taille de l'infoWindow
+        mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
+        */
         // Setting a custom info window adapter for the google map
         googleMap.setInfoWindowAdapter(new InfoWindowAdapter() {
 
@@ -180,12 +190,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 TextView tvParticipants = ((TextView)v.findViewById(R.id.participants_number));
                 tvParticipants.setText(markerEvent.getPlayerIn()+"/"+markerEvent.getPlayersNeeded());
+
                 TextView tvEquipments = ((TextView)v.findViewById(R.id.equipments));
                 tvEquipments.setText("Equipements à déterminer via script");
+
                 TextView tvGps = ((TextView)v.findViewById(R.id.gps_coordonate));
                 tvGps.setText("Coordonnée GPS: "+latLng.latitude+","+latLng.longitude);
+
                 TextView tvName = ((TextView)v.findViewById(R.id.localName));
                 tvName.setText(markerEvent.getName());
+
                 TextView tvAddress = ((TextView)v.findViewById(R.id.address));
                 tvAddress.setText(markerEvent.getAdress());
 
@@ -207,11 +221,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Toast.makeText(this, marker.getTitle(), Toast.LENGTH_LONG).show();
     }
 
+
+    //Methode utilisée pour créer un marker avec les informations d'un objet SportEvent
     private void addMarker(GoogleMap map, double lat, double lon,
                            int title, String participants, int snippet, int equipments, int snippet2, int gps, int snippet3) {
         map.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
     }
 
+    //Methode pour récupérer la position de l'utilisateur au cas où elle changerait pendant l'utilisation
     @Override
     public void onLocationChanged(Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -221,6 +238,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    //Les 3 méthodes qui suivent sont "redéfinis" pour permettre d'"implements" LocationListener
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
     }
