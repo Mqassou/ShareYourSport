@@ -154,7 +154,7 @@ public class Login extends AppCompatActivity {
 
                     try {
                         /////////////////////////////// REQUETE HTTP /////////////////////
-                        URL url = new URL("http://humanapp.assos.efrei.fr/shareyoursport/script/script.php");
+                        URL url = new URL("http://humanapp.assos.efrei.fr/shareyoursport/script/controller/shareyoursportcontroller.php");
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                         connection.setConnectTimeout(3000);
                         connection.setRequestMethod("POST");
