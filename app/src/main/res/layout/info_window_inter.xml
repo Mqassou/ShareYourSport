@@ -66,12 +66,19 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/address"
+            android:id="@+id/localName"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12dp"
             android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/address"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            />
 
         <ImageButton
             android:layout_width="wrap_content"
