@@ -14,124 +14,212 @@
     tools:showIn="@layout/activity_parametre_utilisateur">
 
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="275dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/logo"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/profil_liste" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView4" >
 
-    <ImageView
-        android:id="@+id/profil_liste"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:src="@drawable/profil_liste"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText5"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/editText7"
+                android:gravity="center">
 
-        android:text="Pseudo"
-        android:layout_below="@+id/logo"
-        android:layout_centerHorizontal="true"
-        android:textAlignment="center"
-        android:textColor="#ffffff" />
+                <ImageView
+                    android:id="@+id/profil_liste"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/profil_liste"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true" />
 
-    <EditText
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText6"
+                <ImageView
+                    android:id="@+id/logo"
+                    android:layout_width="275dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/logo"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignBottom="@+id/profil_liste"
+                    android:layout_gravity="top|right"
+                    android:layout_marginLeft="30dp" />
 
-        android:text="Name"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:layout_below="@+id/editText5"
-        android:layout_alignEnd="@+id/editText5" />
+            </LinearLayout>
 
-    <EditText
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText7"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_above="@+id/editText9">
 
-        android:text="Surname"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:layout_below="@+id/editText6"
-        android:layout_alignEnd="@+id/editText6" />
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText5"
 
-    <EditText
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText8"
+                    android:text="Pseudo"
+                    android:layout_below="@+id/logo"
+                    android:layout_centerHorizontal="true"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff" />
+            </LinearLayout>
 
-        android:text="Password"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:layout_below="@+id/editText7"
-        android:layout_alignEnd="@+id/editText7" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/datePicker"
+                android:gravity="center">
 
-    <EditText
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText9"
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText6"
 
-        android:text="If change retype new password"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:layout_below="@+id/editText8"
-        android:layout_centerHorizontal="true" />
+                    android:text="Name"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/editText5"
+                    android:layout_alignEnd="@+id/editText5"
+                    android:gravity="center" />
+            </LinearLayout>
 
-    <DatePicker
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:id="@+id/datePicker"
-        android:nestedScrollingEnabled="false"
-        android:layout_below="@+id/editText9"
-        android:layout_centerHorizontal="true" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_above="@+id/datePicker">
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Male"
-        android:id="@+id/checkBox2"
-        android:layout_alignBottom="@+id/datePicker"
-        android:layout_alignStart="@+id/datePicker"
-        android:layout_marginBottom="96dp"
-        android:checked="false"
-        android:textColor="#ffffff" />
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText7"
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Female"
-        android:id="@+id/checkBox3"
-        android:checked="false"
-        android:layout_alignTop="@+id/checkBox2"
-        android:layout_alignEnd="@+id/datePicker"
-        android:textColor="#ffffff" />
+                    android:text="Surname"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/editText6"
+                    android:layout_alignEnd="@+id/editText6"
+                    android:gravity="center" />
+            </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/send"
-        android:layout_alignBottom="@+id/datePicker"
-        android:layout_alignStart="@+id/logo"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="10dp" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_above="@+id/datePicker">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/back"
-        android:layout_alignBottom="@+id/datePicker"
-        android:layout_toEndOf="@+id/imageView" />
+                <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText8"
+
+                    android:text="Password"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/editText7"
+                    android:layout_alignEnd="@+id/editText7" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_alignBottom="@+id/checkBox2">
+
+                <EditText
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText9"
+
+                    android:text="If change retype new password"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/editText8"
+                    android:layout_centerHorizontal="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="169dp"
+                android:gravity="center"
+                android:weightSum="1">
+
+                <DatePicker
+                    android:layout_width="190dp"
+                    android:layout_height="147dp"
+                    android:id="@+id/datePicker"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_below="@+id/editText9"
+                    android:layout_centerHorizontal="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male"
+                    android:id="@+id/checkBox2"
+                    android:layout_alignBottom="@+id/datePicker"
+                    android:layout_alignStart="@+id/datePicker"
+                    android:checked="false"
+                    android:textColor="#ffffff" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female"
+                    android:id="@+id/checkBox3"
+                    android:checked="false"
+                    android:layout_alignTop="@+id/checkBox2"
+                    android:layout_alignEnd="@+id/datePicker"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="30dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/send"
+                    android:layout_alignBottom="@+id/datePicker"
+                    android:layout_alignStart="@+id/logo" />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/back"
+                    android:layout_alignBottom="@+id/datePicker"
+                    android:layout_toEndOf="@+id/imageView"
+                    android:layout_marginLeft="20dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>
