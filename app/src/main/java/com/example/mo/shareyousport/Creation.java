@@ -78,6 +78,10 @@ public class Creation extends AppCompatActivity {
         ////////////////////  Géolocation ///////////////////////////////////
         String textPosition = thisIntent.getStringExtra("donnée");
 
+        //Latitude et Longitude
+        double latField = thisIntent.getDoubleExtra("latitude",0);
+        double longField = thisIntent.getDoubleExtra("longitude",0);
+
         EditText txt = (EditText) findViewById(R.id.editText);
 
         if(textPosition != null){

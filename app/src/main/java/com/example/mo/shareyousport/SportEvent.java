@@ -2,6 +2,8 @@ package com.example.mo.shareyousport;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Date;
+
 /**
  * Created by Max on 18/03/2016.
  * CLASS REPRESENTANT UN EVENEMENT
@@ -14,6 +16,8 @@ public class SportEvent {
     private int playersNeeded;
     private int playerIn;
     private boolean equipment;
+    private Date debutHour;
+    private Date endHour;
 
     public SportEvent(){
         id = 0;

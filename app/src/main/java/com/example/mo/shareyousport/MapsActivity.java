@@ -89,6 +89,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -143,7 +145,115 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         //Création d'un evenement test
         userEvents.addSports(new SportEvent(0, "Stade de Deuil", "6 Rue Jean Bouin, 95170 Deuil-la-Barre", new LatLng(48.968628, 2.3222098999999616), 11, 1, true));
+//Communication php
+        /*
+          // Classe qui contient 3 méthodes pour pouvoir effectuer une requete http
+    // Ces requêtes nécessitent d'être effectuer dans un  thread
+    private class PostClass extends AsyncTask<String, Void, String> {
 
+
+
+        @Override//Cette méthode s'execute en deuxième
+        protected String doInBackground(String... params) {
+
+            ConnectivityManager check = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo[] info = check.getAllNetworkInfo();
+            for (int i = 0; i < info.length; i++) {
+                if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                    String result;
+
+                    try {
+                        /////////////////////////////// REQUETE HTTP /////////////////////
+                        URL url = new URL("http://humanapp.assos.efrei.fr/shareyoursport/script/script.php");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setConnectTimeout(3000);
+                        connection.setRequestMethod("POST");
+                        connection.setDoInput(true);
+                        connection.setDoOutput(true);
+
+                        /// Mise en place des differents parametre necessaire ////
+
+                        Uri.Builder builder = new Uri.Builder()
+                                .appendQueryParameter("OBJET", "login")
+                                .appendQueryParameter("EMAIL", params[0]) // params[0] entree en parametre dans la method login (cf:  requeteHttp.execute(email, password);)
+                                .appendQueryParameter("PASSWORD", params[1]); //idem
+                        String query = builder.build().getEncodedQuery();
+
+                        OutputStream os = connection.getOutputStream();
+                        BufferedWriter writer = new BufferedWriter(
+                                new OutputStreamWriter(os, "UTF-8"));
+                        writer.write(query);
+                        writer.flush();
+                        writer.close();
+                        os.close();
+
+                        connection.connect();
+
+                        ///////////////////////////////BUFFERREADER/////////////////////
+
+                        Reader reader =new InputStreamReader(connection.getInputStream(), "UTF-8");
+                        char[] buffer = new char[50];
+                        reader.read(buffer);  /// On recupere ce que nous a envoyés le fichier php
+                        result = new String(buffer);
+                        reader.close();
+
+
+                        //////////////////////JSON////////////////////////////////////
+                        try {
+
+                            JSONObject object = new JSONObject(result);
+                            connection.disconnect();
+                            return object.getString("value"); // On retourne true ou false
+
+
+                        } catch (JSONException e) {
+                            Log.e("log_tag", "Error parsing data " + e.toString());
+
+                        }
+
+                        ///////////////// Code permettant de vérifier la connexion avecle server////////////////
+                  /*      if (connection.getResponseCode() == 200) {
+                            return   String.valueOf(connection.getResponseCode()) + " "+ connection.getResponseMessage();
+                        }
+
+                        return    String.valueOf(connection.getResponseCode()) + " "+ connection.getResponseMessage();
+                    */
+    /*} catch (MalformedURLException e) {
+        e.printStackTrace();
+    } catch (ProtocolException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+}
+}
+
+        return "false";
+
+        }
+
+@Override // La troisème méthode qui s'execute en dernier
+// String th, est la valeur que nous a retournee doInBackground
+protected void onPostExecute(String th) {
+        progressDialog.dismiss();
+
+        if (Boolean.parseBoolean(th)) {
+        Intent myIntent = new Intent(Login.this, Creation.class);
+        startActivity(myIntent);
+
+
+        } else {
+        Toast.makeText(getBaseContext(), "Erreur de connexion ", Toast.LENGTH_LONG).show();
+        }
+
+
+
+        }
+
+        }
+
+         */
 
         /* Test inutilisé désormais
         mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
@@ -159,7 +269,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             intermUserEvent = it.next();
 
-            addMarker(mMap, intermUserEvent.getCoord().latitude, intermUserEvent.getCoord().longitude, R.string.info_window_participants, intermUserEvent.getPlayerIn() + "/" + intermUserEvent.getPlayersNeeded(), R.string.info_window_equipments, R.string.info_window_equipmentsInfo, R.string.info_window_gps, R.string.info_window_gps, R.string.info_window_participants);
+            addMarker(mMap, intermUserEvent.getCoord().latitude, intermUserEvent.getCoord().longitude);
             // sydney.showInfoWindow();
         }
 
@@ -213,7 +323,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(this);
 
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(SYDNEY));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(SYDNEY));
     }
 
     @Override
@@ -223,8 +333,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     //Methode utilisée pour créer un marker avec les informations d'un objet SportEvent
-    private void addMarker(GoogleMap map, double lat, double lon,
-                           int title, String participants, int snippet, int equipments, int snippet2, int gps, int snippet3) {
+    private void addMarker(GoogleMap map, double lat, double lon) {
         map.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
     }
 
