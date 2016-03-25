@@ -229,7 +229,7 @@ public class Login extends AppCompatActivity {
             progressDialog.dismiss();
 
                 if (Boolean.parseBoolean(th)) {
-                    Intent myIntent = new Intent(Login.this, Creation.class);
+                    Intent myIntent = new Intent(Login.this, Interface.class);
                     startActivity(myIntent);
 
 
