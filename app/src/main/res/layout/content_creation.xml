@@ -53,7 +53,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="71dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center">
 
                 <ImageView
@@ -67,14 +67,37 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/editText"
                     android:hint="Votre lieu de pratique"
-                    android:layout_marginLeft="30dp" />
+                    android:layout_marginLeft="30dp"
+                    android:textColor="#ffffff"
+                    android:text="Votre lieu de pratique" />
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="71dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/clock" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date de l&apos;évènement"
+                    android:id="@+id/dateevenement" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="71dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center">
 
                 <ImageView
@@ -83,12 +106,17 @@
                     android:layout_height="60dp"
                     android:src="@drawable/clock" />
 
-                <EditText
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editText2"
-                    android:hint="L'heure de votre activité"
-                    android:layout_marginLeft="30dp" />
+                    android:text="Heure de debut"
+                    android:id="@+id/heuredebut" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Heure de fin"
+                    android:id="@+id/heurefin" />
 
             </LinearLayout>
 
@@ -96,7 +124,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="71dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="center">
 
                 <ImageView
@@ -115,7 +143,8 @@
                     android:width="200dp"
                     android:layout_gravity="right"
                     android:gravity="center"
-                    android:text="0" />
+                    android:text="0"
+                    android:textColor="#ffffff" />
 
                 <ImageView
                 android:id="@+id/minus"
@@ -142,11 +171,14 @@
                     android:src="@drawable/equipement"
                     android:layout_above="@+id/send" />
 
-                <EditText
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editText4"
-                    android:hint="Equipement nécessaire" />
+                    android:text="Je possède l&apos;équipement"
+                    android:id="@+id/textView9"
+                    android:textSize="20sp"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="5dp" />
 
                 <CheckBox
                     android:layout_width="wrap_content"
