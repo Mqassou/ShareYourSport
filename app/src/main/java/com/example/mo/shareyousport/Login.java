@@ -179,6 +179,8 @@ public class Login extends AppCompatActivity {
 
                         connection.connect();
 
+
+
                         ///////////////////////////////BUFFERREADER/////////////////////
 
                         Reader reader =new InputStreamReader(connection.getInputStream(), "UTF-8");

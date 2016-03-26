@@ -113,6 +113,16 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Vector;
 
+
+
+
+
+
+
+
+
+import java.io.InputStream;
+
 //import org.json.simple.JSONValue; Trouve run moyen de résoudre le soucis de dépendance
 //import org.json.simple.JSONObject;
 
@@ -129,6 +139,7 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
     //mettre en place en methode pour récupérer tous les évenements en bdd ici
 
     private GoogleMap mMap;
+
 
     private LocationManager locationManager;
 
@@ -173,11 +184,237 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
     public void onMapReady(GoogleMap googleMap) {
         SportField intermUserField;
         mMap = googleMap;
-        userFields.add(new SportField(0, "Stade de Deuil", "6 Rue Jean Bouin, 95170"," Deuil La Barre", new LatLng(48.968628, 2.3222098999999616)));
 
-        //Communication php a mettre en place
-        // Classe qui contient 3 méthodes pour pouvoir effectuer une requete http
-        // Ces requêtes nécessitent d'être effectuer dans un  thread
+
+
+
+
+        /*SportField sports2 = new SportField();
+        sports2.setId(0);
+        sports2.setName("Stade de Deuil");
+        sports2.setAdress("6 Rue Jean Bouin, 95170");
+        sports2.setCity("Deuil La Barre");
+        LatLng coordInter2;
+        coordInter2 = new LatLng(48.968628, 2.3222098999999616);
+        sports2.setCoord(coordInter2);
+
+        userFields.add(sports2);*/
+
+        //userFields.add(new SportField(0, "Stade de Deuil", "6 Rue Jean Bouin, 95170"," Deuil La Barre", new LatLng(48.968628, 2.3222098999999616)));
+
+
+
+        PostClass2 requetteHttp = new PostClass2();
+        requetteHttp.execute(userFields);
+
+        //mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
+        // Add a marker in Sydney and move the camera
+        LatLng SYDNEY = new LatLng(-34, 151);
+        //Marker sydney = mMap.addMarker(new MarkerOptions().position(SYDNEY);
+        /*Iterator<SportField> it = userFields.iterator();
+        while (it.hasNext()) {
+
+            intermUserField = (SportField) it.next();
+
+            addMarker(mMap, intermUserField.getCoord().latitude, intermUserField.getCoord().longitude, intermUserField.getName());
+            // sydney.showInfoWindow();
+        }
+        //mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
+        //mMap.setOnInfoWindowClickListener(this);*/
+        mMap.setOnMarkerClickListener(this);
+
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(SYDNEY));
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Toast.makeText(this, marker.getTitle(), Toast.LENGTH_LONG).show();
+    }
+
+    private void addMarker(GoogleMap map, double lat, double lon,
+                           String adress) {
+        map.addMarker(new MarkerOptions().title(adress).position(new LatLng(lat, lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+        mMap.animateCamera(cameraUpdate);
+        //locationManager.removeUpdates(this);
+    }
+
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+    }
+
+
+    //Methode utilisé pour changer d'un activité tout en passant des information à la nouvelle activité lorsque l'utilisateur clique sur un marker
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        // TODO Auto-generated method stub
+        Intent intent = new Intent(this, Creation.class);
+        intent.putExtra("donnée", marker.getTitle());
+        intent.putExtra("latitude", marker.getPosition().latitude);
+        intent.putExtra("longitude", marker.getPosition().longitude);
+        startActivity(intent);
+        return false;
+    }
+
+
+    private class PostClass2 extends AsyncTask<Vector<SportField>, Vector<SportField>, Vector<SportField>> {
+        final ProgressDialog progressDialog = new ProgressDialog(MapsActivityCreation.this, R.style.AppTheme_Dark_Dialog);
+        Vector<SportField> myFields;
+        @Override //Cette méthode s'execute en premier, elle ouvre une simple boite de dialogue
+        protected void onPreExecute() {
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
+        }
+
+        protected Vector<SportField> doInBackground(Vector<SportField>... params) {
+            myFields = params[0];
+            ConnectivityManager check = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo[] info = check.getAllNetworkInfo();
+            for (int i = 0; i < info.length; i++) {
+                if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+
+                    SportFieldGroup testField = new SportFieldGroup();
+                    String result;
+                    try {
+
+
+                        System.out.println("ON EST DAAAAAAANNNNNNNNNNNSSSSSSSSSS LLLLLLEEEEEEEE TTTTTTTRRRRRRRRYYYYYYY");
+
+                        URL url = new URL("http://humanapp.assos.efrei.fr/shareyoursport/script/shareyoursportcontroller.php");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setConnectTimeout(3000);
+                        connection.setRequestMethod("POST");
+                        connection.setDoInput(true);
+                        connection.setDoOutput(true);
+
+                        /// Mise en place des differents parametre necessaire ////
+
+                        Uri.Builder builder = new Uri.Builder()
+                                .appendQueryParameter("OBJET", "tousTerrain");
+
+                        String query = builder.build().getEncodedQuery();
+
+                        OutputStream os = connection.getOutputStream();
+                        BufferedWriter writer = new BufferedWriter(
+                                new OutputStreamWriter(os, "UTF-8"));
+                        writer.write(query);
+                        writer.flush();
+                        writer.close();
+                        os.close();
+
+                        connection.connect();
+
+
+                       InputStream inputStream = connection.getInputStream();
+
+                        // InputStreamOperations est une classe complémentaire:
+                        //Elle contient une méthode InputStreamToString.
+
+                        result = InputStreamOperations.InputStreamToString(inputStream);
+
+                /*Reader reader = new InputStreamReader(connection.getInputStream(), "UTF-8");
+                char[] buffer = new char[1024];
+                reader.read(buffer);  /// On recupere ce que nous a envoyés le fichier php
+                result = new String(buffer);
+                reader.close();*/
+
+                        try{
+                        System.out.println("ON EST COOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNNNNNNNEEEEEEEECCCCCCCCCTTTTTTTTEEEEEEEE");
+
+
+                        //JSONArray array = new JSONArray(result);
+
+
+
+                        // On récupère le JSON complet
+                        JSONObject jsonObject = new JSONObject(result);
+                        System.out.println(jsonObject.toString());
+                        // On récupère le tableau d'objets qui nous concernent
+                            JSONArray array = jsonObject.getJSONArray("terrain");
+                       //JSONArray array = new JSONArray(jsonObject.getString("terrain"));
+
+
+                        LatLng coordInter;
+                        // Pour tous les objets on récupère les infos
+                        for (int j = 0; j < array.length(); j++) {
+                            System.out.println("ON EST DANS LA BOUUUUUUUUUUUUUUUUUCCLLLLLLLLLEEEEEEEEEE");
+
+                            // On récupère un objet JSON du tableau
+                            //JSONObject obj = array.getJSONObject(j);
+                            JSONObject obj = new JSONObject(array.getString(j));
+                            SportField sports = new SportField();
+                            // On fait le lien Terrain - Objet JSON
+
+                            sports.setId(obj.getInt("id"));
+                            sports.setName(obj.getString("name"));
+                            sports.setAdress(obj.getString("adress"));
+                            sports.setCity(obj.getString("city"));
+                            coordInter = new LatLng(obj.getDouble("latitude"), obj.getDouble("longitude"));
+                            sports.setCoord(coordInter);
+                            // On ajoute la personne à la liste
+                            myFields.add(sports);
+
+
+
+                        }
+
+
+                    } catch (JSONException e) {
+                        Log.e("log_tag", "Error parsing data " + e.toString());
+
+                    }
+                    }
+                    catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            return myFields;
+        }
+
+        protected void onPostExecute(Vector<SportField> th) {
+            progressDialog.dismiss();
+            SportField intermUserField;
+            Toast.makeText(getBaseContext(), "The Job is done", Toast.LENGTH_LONG).show();
+            Iterator<SportField> it = th.iterator();
+            while (it.hasNext()) {
+
+                intermUserField = it.next();
+
+                addMarker(mMap, intermUserField.getCoord().latitude, intermUserField.getCoord().longitude, intermUserField.getName());
+                // sydney.showInfoWindow();
+            }
+        }
+
+
+    }
+}
+//Communication php a mettre en place
+// Classe qui contient 3 méthodes pour pouvoir effectuer une requete http
+// Ces requêtes nécessitent d'être effectuer dans un  thread
         /*private class PostClass extends AsyncTask<String, Void, String> {
 
            //final ProgressDialog progressDialog = new ProgressDialog(Login.this, R.style.AppTheme_Dark_Dialog); Inutile
@@ -337,71 +574,3 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
         }
 
         */
-
-
-        //mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
-        // Add a marker in Sydney and move the camera
-        LatLng SYDNEY = new LatLng(-34, 151);
-        //Marker sydney = mMap.addMarker(new MarkerOptions().position(SYDNEY);
-        Iterator<SportField> it = userFields.iterator();
-        while (it.hasNext()) {
-
-            intermUserField = (SportField) it.next();
-
-            addMarker(mMap, intermUserField.getCoord().latitude, intermUserField.getCoord().longitude, intermUserField.getName());
-            // sydney.showInfoWindow();
-        }
-        //mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
-        //mMap.setOnInfoWindowClickListener(this);
-        mMap.setOnMarkerClickListener(this);
-
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(SYDNEY));
-    }
-
-    @Override
-    public void onInfoWindowClick(Marker marker) {
-        Toast.makeText(this, marker.getTitle(), Toast.LENGTH_LONG).show();
-    }
-
-    private void addMarker(GoogleMap map, double lat, double lon,
-                           String adress) {
-        map.addMarker(new MarkerOptions().title(adress).position(new LatLng(lat, lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-        mMap.animateCamera(cameraUpdate);
-        //locationManager.removeUpdates(this);
-    }
-
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-    }
-
-
-    //Methode utilisé pour changer d'un activité tout en passant des information à la nouvelle activité lorsque l'utilisateur clique sur un marker
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        // TODO Auto-generated method stub
-        Intent intent = new Intent(this, Creation.class);
-        intent.putExtra("donnée", marker.getTitle());
-        intent.putExtra("latitude", marker.getPosition().latitude);
-        intent.putExtra("longitude", marker.getPosition().longitude);
-        startActivity(intent);
-        return false;
-    }
-
-
-
-}

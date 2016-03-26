@@ -33,6 +33,11 @@ public class SportField {
 
 
 
+
+    public int getId() {
+        return id;
+    }
+
     public String getAdress() {
         return adress;
     }
@@ -49,6 +54,9 @@ public class SportField {
         return coord;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -66,6 +74,14 @@ public class SportField {
         this.coord = coord;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "SportField{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", adress='" + adress + '\'' +
+                ", city='" + city + '\'' +
+                ", coord=" + coord +
+                '}';
+    }
 }
