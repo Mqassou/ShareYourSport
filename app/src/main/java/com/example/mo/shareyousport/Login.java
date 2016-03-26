@@ -77,7 +77,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void login() {
-        Log.d(TAG, "Login");
+
 
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
