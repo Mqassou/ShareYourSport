@@ -134,7 +134,7 @@ import java.io.InputStream;
 
 
 public class MapsActivityCreation extends FragmentActivity implements OnMapReadyCallback, OnInfoWindowClickListener, LocationListener, OnMarkerClickListener {
-    private Vector<SportField> userFields = new Vector<SportField>();
+    private SportFieldGroup userFields = new SportFieldGroup();
 
     //mettre en place en methode pour récupérer tous les évenements en bdd ici
 
@@ -271,9 +271,9 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
     }
 
 
-    private class PostClass2 extends AsyncTask<Vector<SportField>, Vector<SportField>, Vector<SportField>> {
+    private class PostClass2 extends AsyncTask<SportFieldGroup, SportFieldGroup, SportFieldGroup> {
         final ProgressDialog progressDialog = new ProgressDialog(MapsActivityCreation.this, R.style.AppTheme_Dark_Dialog);
-        Vector<SportField> myFields;
+        SportFieldGroup myFields;
         @Override //Cette méthode s'execute en premier, elle ouvre une simple boite de dialogue
         protected void onPreExecute() {
             progressDialog.setIndeterminate(true);
@@ -281,7 +281,7 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
             progressDialog.show();
         }
 
-        protected Vector<SportField> doInBackground(Vector<SportField>... params) {
+        protected SportFieldGroup doInBackground(SportFieldGroup... params) {
             myFields = params[0];
             ConnectivityManager check = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo[] info = check.getAllNetworkInfo();
@@ -367,7 +367,7 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
                             coordInter = new LatLng(obj.getDouble("latitude"), obj.getDouble("longitude"));
                             sports.setCoord(coordInter);
                             // On ajoute la personne à la liste
-                            myFields.add(sports);
+                            myFields.addSports(sports);
 
 
 
@@ -395,7 +395,7 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
             return myFields;
         }
 
-        protected void onPostExecute(Vector<SportField> th) {
+        protected void onPostExecute(SportFieldGroup th) {
             progressDialog.dismiss();
             SportField intermUserField;
             Toast.makeText(getBaseContext(), "The Job is done", Toast.LENGTH_LONG).show();
