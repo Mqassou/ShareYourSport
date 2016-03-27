@@ -203,8 +203,7 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
         //userFields.add(new SportField(0, "Stade de Deuil", "6 Rue Jean Bouin, 95170"," Deuil La Barre", new LatLng(48.968628, 2.3222098999999616)));
 
 
-
-        PostClass2 requetteHttp = new PostClass2();
+        PostClassCreate requetteHttp = new PostClassCreate();
         requetteHttp.execute(userFields);
 
         //mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
@@ -271,7 +270,7 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
     }
 
 
-    private class PostClass2 extends AsyncTask<SportFieldGroup, SportFieldGroup, SportFieldGroup> {
+    private class PostClassCreate extends AsyncTask<SportFieldGroup, SportFieldGroup, SportFieldGroup> {
         final ProgressDialog progressDialog = new ProgressDialog(MapsActivityCreation.this, R.style.AppTheme_Dark_Dialog);
         SportFieldGroup myFields;
         @Override //Cette méthode s'execute en premier, elle ouvre une simple boite de dialogue
@@ -405,7 +404,7 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
                 intermUserField = it.next();
 
                 addMarker(mMap, intermUserField.getCoord().latitude, intermUserField.getCoord().longitude, intermUserField.getName());
-                // sydney.showInfoWindow();
+
             }
         }
 

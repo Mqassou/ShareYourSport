@@ -2,8 +2,13 @@ package com.example.mo.shareyousport;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -12,6 +17,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.Projection;
@@ -73,6 +79,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -96,8 +103,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -156,119 +167,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        SportEvent intermUserEvent;
+       // SportEvent intermUserEvent;
         mMap = googleMap;
         //Création d'un evenement test
-        userEvents.addSports(new SportEvent(0, "Stade de Deuil", "6 Rue Jean Bouin, 95170 Deuil-la-Barre", new LatLng(48.968628, 2.3222098999999616), 11, 1, true));
+        //userEvents.addSports(new SportEvent(0, "Stade de Deuil", "6 Rue Jean Bouin, 95170","Deuil-la-Barre" , new LatLng(48.968628, 2.3222098999999616), 11, 1, true,"Basket"));
 //Communication php
         /*
-          // Classe qui contient 3 méthodes pour pouvoir effectuer une requete http
-    // Ces requêtes nécessitent d'être effectuer dans un  thread
-    private class PostClass extends AsyncTask<String, Void, String> {
 
-
-
-        @Override//Cette méthode s'execute en deuxième
-        protected String doInBackground(String... params) {
-
-            ConnectivityManager check = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo[] info = check.getAllNetworkInfo();
-            for (int i = 0; i < info.length; i++) {
-                if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-                    String result;
-
-                    try {
-                        /////////////////////////////// REQUETE HTTP /////////////////////
-                        URL url = new URL("http://humanapp.assos.efrei.fr/shareyoursport/script/script.php");
-                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                        connection.setConnectTimeout(3000);
-                        connection.setRequestMethod("POST");
-                        connection.setDoInput(true);
-                        connection.setDoOutput(true);
-
-                        /// Mise en place des differents parametre necessaire ////
-
-                        Uri.Builder builder = new Uri.Builder()
-                                .appendQueryParameter("OBJET", "login")
-                                .appendQueryParameter("EMAIL", params[0]) // params[0] entree en parametre dans la method login (cf:  requeteHttp.execute(email, password);)
-                                .appendQueryParameter("PASSWORD", params[1]); //idem
-                        String query = builder.build().getEncodedQuery();
-
-                        OutputStream os = connection.getOutputStream();
-                        BufferedWriter writer = new BufferedWriter(
-                                new OutputStreamWriter(os, "UTF-8"));
-                        writer.write(query);
-                        writer.flush();
-                        writer.close();
-                        os.close();
-
-                        connection.connect();
-
-                        ///////////////////////////////BUFFERREADER/////////////////////
-
-                        Reader reader =new InputStreamReader(connection.getInputStream(), "UTF-8");
-                        char[] buffer = new char[50];
-                        reader.read(buffer);  /// On recupere ce que nous a envoyés le fichier php
-                        result = new String(buffer);
-                        reader.close();
-
-
-                        //////////////////////JSON////////////////////////////////////
-                        try {
-
-                            JSONObject object = new JSONObject(result);
-                            connection.disconnect();
-                            return object.getString("value"); // On retourne true ou false
-
-
-                        } catch (JSONException e) {
-                            Log.e("log_tag", "Error parsing data " + e.toString());
-
-                        }
-
-                        ///////////////// Code permettant de vérifier la connexion avecle server////////////////
-                  /*      if (connection.getResponseCode() == 200) {
-                            return   String.valueOf(connection.getResponseCode()) + " "+ connection.getResponseMessage();
-                        }
-
-                        return    String.valueOf(connection.getResponseCode()) + " "+ connection.getResponseMessage();
-                    */
-    /*} catch (MalformedURLException e) {
-        e.printStackTrace();
-    } catch (ProtocolException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-
-}
-}
-
-        return "false";
-
-        }
-
-@Override // La troisème méthode qui s'execute en dernier
-// String th, est la valeur que nous a retournee doInBackground
-protected void onPostExecute(String th) {
-        progressDialog.dismiss();
-
-        if (Boolean.parseBoolean(th)) {
-        Intent myIntent = new Intent(Login.this, Creation.class);
-        startActivity(myIntent);
-
-
-        } else {
-        Toast.makeText(getBaseContext(), "Erreur de connexion ", Toast.LENGTH_LONG).show();
-        }
-
-
-
-        }
-
-        }
-
-         */
 
         /* Test inutilisé désormais
         mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
@@ -279,14 +184,14 @@ protected void onPostExecute(String th) {
 
 
         //Méthode utilisé pour parcourir l'ensemble des évenements existants
-        Iterator<SportEvent> it = userEvents.iterator();
+        /*Iterator<SportEvent> it = userEvents.iterator();
         while (it.hasNext()) {
 
             intermUserEvent = it.next();
 
             addMarker(mMap, intermUserEvent.getCoord().latitude, intermUserEvent.getCoord().longitude);
             // sydney.showInfoWindow();
-        }
+        }*/
 
 
         /* Auparavant utilisé pour adapter la taille de l'infoWindow
@@ -334,6 +239,8 @@ protected void onPostExecute(String th) {
             }
         });
 
+        PostClassMapJoin requetteHttp = new PostClassMapJoin();
+        requetteHttp.execute(userEvents);
 
         mMap.setOnInfoWindowClickListener(this);
 
@@ -374,5 +281,155 @@ protected void onPostExecute(String th) {
     @Override
     public void onProviderDisabled(String provider) {
     }
+
+
+
+    private class PostClassMapJoin extends AsyncTask<SportEventGroup, SportEventGroup, SportEventGroup> {
+        final ProgressDialog progressDialog = new ProgressDialog(MapsActivity.this, R.style.AppTheme_Dark_Dialog);
+        SportEventGroup myEvents;
+        @Override //Cette méthode s'execute en premier, elle ouvre une simple boite de dialogue
+        protected void onPreExecute() {
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
+        }
+
+        protected SportEventGroup doInBackground(SportEventGroup... params) {
+            myEvents = params[0];
+            ConnectivityManager check = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo[] info = check.getAllNetworkInfo();
+            for (int i = 0; i < info.length; i++) {
+                if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+
+                    SportFieldGroup testField = new SportFieldGroup();
+                    String result;
+                    try {
+
+
+                        System.out.println("ON EST DAAAAAAANNNNNNNNNNNSSSSSSSSSS LLLLLLEEEEEEEE TTTTTTTRRRRRRRRYYYYYYY");
+
+                        URL url = new URL("http://humanapp.assos.efrei.fr/shareyoursport/script/shareyoursportcontroller.php");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setConnectTimeout(3000);
+                        connection.setRequestMethod("POST");
+                        connection.setDoInput(true);
+                        connection.setDoOutput(true);
+
+                        /// Mise en place des differents parametre necessaire ////
+
+                        Uri.Builder builder = new Uri.Builder()
+                                .appendQueryParameter("OBJET", "tousEvent");
+
+                        String query = builder.build().getEncodedQuery();
+
+                        OutputStream os = connection.getOutputStream();
+                        BufferedWriter writer = new BufferedWriter(
+                                new OutputStreamWriter(os, "UTF-8"));
+                        writer.write(query);
+                        writer.flush();
+                        writer.close();
+                        os.close();
+
+                        connection.connect();
+
+
+                        InputStream inputStream = connection.getInputStream();
+
+                        // InputStreamOperations est une classe complémentaire:
+                        //Elle contient une méthode InputStreamToString.
+
+                        result = InputStreamOperations.InputStreamToString(inputStream);
+
+                /*Reader reader = new InputStreamReader(connection.getInputStream(), "UTF-8");
+                char[] buffer = new char[1024];
+                reader.read(buffer);  /// On recupere ce que nous a envoyés le fichier php
+                result = new String(buffer);
+                reader.close();*/
+
+                        try{
+                            System.out.println("ON EST COOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNNNNNNNEEEEEEEECCCCCCCCCTTTTTTTTEEEEEEEE");
+
+
+                            //JSONArray array = new JSONArray(result);
+
+
+
+                            // On récupère le JSON complet
+                            JSONObject jsonObject = new JSONObject(result);
+                            System.out.println(jsonObject.toString());
+                            // On récupère le tableau d'objets qui nous concernent
+                            JSONArray array = jsonObject.getJSONArray("evenement");
+                            //JSONArray array = new JSONArray(jsonObject.getString("terrain"));
+
+
+                            LatLng coordInter;
+                            // Pour tous les objets on récupère les infos
+                            for (int j = 0; j < array.length(); j++) {
+                                System.out.println("ON EST DANS LA BOUUUUUUUUUUUUUUUUUCCLLLLLLLLLEEEEEEEEEE");
+
+                                // On récupère un objet JSON du tableau
+                                //JSONObject obj = array.getJSONObject(j);
+                                JSONObject obj = new JSONObject(array.getString(j));
+                                SportEvent events = new SportEvent();
+                                // On fait le lien Terrain - Objet JSON
+
+                                events.setId(obj.getInt("id"));
+                                events.setName(obj.getString("name"));
+                                events.setAdress(obj.getString("adress"));
+                                events.setCity(obj.getString("city"));
+                                coordInter = new LatLng(obj.getDouble("latitude"), obj.getDouble("longitude"));
+                                events.setCoord(coordInter);
+                                events.setPlayersNeeded(obj.getInt("playersNeeded"));
+                                events.setPlayerIn(obj.getInt("playersIn"));
+                                events.setEquipment(obj.getBoolean("equipment"));
+                                events.setTypeSport(obj.getString("typeSport"));
+                                // On ajoute la personne à la liste
+                                myEvents.addSports(events);
+
+
+
+                            }
+
+
+                        } catch (JSONException e) {
+                            Log.e("log_tag", "Error parsing data " + e.toString());
+
+                        }
+                    }
+                    catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            return myEvents;
+        }
+
+        protected void onPostExecute(SportEventGroup th) {
+            progressDialog.dismiss();
+            SportEvent intermUserEvent;
+            Toast.makeText(getBaseContext(), "The Job is done", Toast.LENGTH_LONG).show();
+            Iterator<SportEvent> it = th.iterator();
+            while (it.hasNext()) {
+
+                intermUserEvent = it.next();
+
+                addMarker(mMap, intermUserEvent.getCoord().latitude, intermUserEvent.getCoord().longitude);
+                // sydney.showInfoWindow();
+            }
+        }
+
+
+    }
+
+
+
 
 }
