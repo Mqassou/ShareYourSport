@@ -265,6 +265,8 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
         intent.putExtra("donnée", marker.getTitle());
         intent.putExtra("latitude", marker.getPosition().latitude);
         intent.putExtra("longitude", marker.getPosition().longitude);
+        intent.putExtra("adresse", marker.getPosition().latitude);
+        intent.putExtra("ville", marker.getPosition().longitude);
         startActivity(intent);
         return false;
     }

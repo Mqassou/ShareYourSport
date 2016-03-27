@@ -58,6 +58,8 @@ public class Creation extends AppCompatActivity {
     //Latitude et Longitude
     double latField=0 ;
     double longField=0 ;
+    String cityField = null;
+    String adressField = null;
 
      @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +130,9 @@ public class Creation extends AppCompatActivity {
         //Latitude et Longitude
          latField = thisIntent.getDoubleExtra("latitude",0);
          longField = thisIntent.getDoubleExtra("longitude",0);
+         cityField = thisIntent.getStringExtra("ville");
+         adressField = thisIntent.getStringExtra("adresse");
+
 
         EditText txt = (EditText) findViewById(R.id.editText);
 
