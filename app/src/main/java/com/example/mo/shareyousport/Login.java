@@ -2,6 +2,7 @@ package com.example.mo.shareyousport;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -41,6 +42,7 @@ public class Login extends AppCompatActivity {
     private static final String TAG = "Login";
     private static final int REQUEST_SIGNUP = 0;
     private String result_login = "false";
+     private  SharedPreferences sharedpreferences;
 
     @Bind(R.id.input_email)
     EditText _emailText;
@@ -230,7 +232,12 @@ public class Login extends AppCompatActivity {
         protected void onPostExecute(String th) {
             progressDialog.dismiss();
 
-                if (Boolean.parseBoolean(th)) {
+                if (!th.equals("false")) {
+                    sharedpreferences = getSharedPreferences("id_utilisateur", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("id",th);
+                    editor.commit();
+                    Toast.makeText(getBaseContext(), "Connexion réuissie" , Toast.LENGTH_LONG).show();
                     Intent myIntent = new Intent(Login.this, Interface.class);
                     startActivity(myIntent);
 
