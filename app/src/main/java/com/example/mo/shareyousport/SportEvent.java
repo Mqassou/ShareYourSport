@@ -124,8 +124,8 @@ public class SportEvent {
 
 
     public int addPlayer(){
-        if (playerIn<playersNeeded){
-            playerIn++;
+        if (this.playerIn<this.playersNeeded){
+            this.playerIn++;
         }
         else{
             System.out.println("Evenement remplis");

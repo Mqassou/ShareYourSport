@@ -28,7 +28,7 @@ public class SportFieldGroup implements Iterable<SportField>{
 
 
 
-    public SportField findSportByCoord(LatLng Coord){
+    public SportField findFieldByCoord(LatLng Coord){
         Iterator<SportField> it = allSports.iterator();
         SportField finalSport = new SportField();
         SportField interSport = new SportField();
