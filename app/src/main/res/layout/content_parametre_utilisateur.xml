@@ -28,7 +28,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/editText7"
+                android:layout_above="@+id/surname_p"
                 android:gravity="center">
 
                 <ImageView
@@ -57,18 +57,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:layout_above="@+id/editText9">
+                android:layout_above="@+id/password_p">
 
                 <EditText
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editText5"
-
-                    android:text="Pseudo"
+                    android:id="@+id/pseudo_p"
+                    android:textColorHint="#ffffff"
                     android:layout_below="@+id/logo"
                     android:layout_centerHorizontal="true"
                     android:textAlignment="center"
-                    android:textColor="#ffffff" />
+                    android:textColor="#ffffff"
+                    android:hint="Pseudo" />
             </LinearLayout>
 
             <LinearLayout
@@ -81,14 +81,14 @@
                 <EditText
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editText6"
-
-                    android:text="Name"
+                    android:id="@+id/name_p"
+                    android:textColorHint="#ffffff"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
                     android:layout_below="@+id/editText5"
                     android:layout_alignEnd="@+id/editText5"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:hint="Name" />
             </LinearLayout>
 
             <LinearLayout
@@ -101,14 +101,110 @@
                 <EditText
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editText7"
-
-                    android:text="Surname"
+                    android:id="@+id/surname_p"
+                    android:textColorHint="#ffffff"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
-                    android:layout_below="@+id/editText6"
-                    android:layout_alignEnd="@+id/editText6"
-                    android:gravity="center" />
+                    android:layout_below="@+id/name_p"
+                    android:layout_alignEnd="@+id/name_p"
+                    android:gravity="center"
+                    android:hint="Surname" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_alignBottom="@+id/male_p"
+                android:id="@+id/email_p">
+
+                <EditText
+                    android:textColorHint="#ffffff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editText2"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/password2_p"
+                    android:layout_centerHorizontal="true"
+                    android:hint="adresse email" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_alignBottom="@+id/male_p" >
+
+                <EditText
+                    android:textColorHint="#ffffff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tel_p"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/password2_p"
+                    android:layout_centerHorizontal="true"
+                    android:hint="Telephone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_alignBottom="@+id/male_p" >
+
+                <EditText
+                    android:textColorHint="#ffffff"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/adresse_p"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/password2_p"
+                    android:layout_centerHorizontal="true"
+                    android:hint="Adresse" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_alignBottom="@+id/male_p" >
+
+                <EditText
+                    android:textColorHint="#ffffff"
+                    android:layout_width="90dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ville_p"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/password2_p"
+                    android:layout_centerHorizontal="true"
+                    android:hint="Ville" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_alignBottom="@+id/male_p">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/password_p"
+                    android:textColorHint="#ffffff"
+                    android:textAlignment="center"
+                    android:textColor="#ffffff"
+                    android:layout_below="@+id/password2_p"
+                    android:layout_centerHorizontal="true"
+                    android:hint="New password" />
             </LinearLayout>
 
             <LinearLayout
@@ -119,50 +215,29 @@
                 android:layout_above="@+id/datePicker">
 
                 <EditText
-                    android:layout_width="100dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editText8"
-
-                    android:text="Password"
+                    android:id="@+id/password2_p"
+                    android:textColorHint="#ffffff"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
-                    android:layout_below="@+id/editText7"
-                    android:layout_alignEnd="@+id/editText7" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_alignBottom="@+id/checkBox2">
-
-                <EditText
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/editText9"
-
-                    android:text="If change retype new password"
-                    android:textAlignment="center"
-                    android:textColor="#ffffff"
-                    android:layout_below="@+id/editText8"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_below="@+id/surname_p"
+                    android:layout_alignEnd="@+id/surname_p"
+                    android:hint="Confirm password" />
             </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="169dp"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:weightSum="1">
 
-                <DatePicker
-                    android:layout_width="190dp"
-                    android:layout_height="147dp"
-                    android:id="@+id/datePicker"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_below="@+id/editText9"
-                    android:layout_centerHorizontal="true" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date de naissance"
+                    android:id="@+id/naissance_p" />
             </LinearLayout>
 
             <LinearLayout
@@ -175,7 +250,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Male"
-                    android:id="@+id/checkBox2"
+                    android:id="@+id/male_p"
                     android:layout_alignBottom="@+id/datePicker"
                     android:layout_alignStart="@+id/datePicker"
                     android:checked="false"
@@ -185,12 +260,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Female"
-                    android:id="@+id/checkBox3"
+                    android:id="@+id/female_p"
                     android:checked="false"
-                    android:layout_alignTop="@+id/checkBox2"
+                    android:layout_alignTop="@+id/male_p"
                     android:layout_alignEnd="@+id/datePicker"
                     android:textColor="#ffffff"
                     android:layout_marginLeft="30dp" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -201,20 +277,20 @@
                 android:layout_marginTop="20dp">
 
                 <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/send"
-                    android:layout_alignBottom="@+id/datePicker"
-                    android:layout_alignStart="@+id/logo" />
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:id="@+id/back_p"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@drawable/back"
                     android:layout_alignBottom="@+id/datePicker"
-                    android:layout_toEndOf="@+id/imageView"
+                    android:layout_toEndOf="@+id/valider_p" />
+
+                <ImageView
+                    android:id="@+id/valider_p"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/send"
+                    android:layout_alignBottom="@+id/datePicker"
+                    android:layout_alignStart="@+id/logo"
                     android:layout_marginLeft="20dp" />
             </LinearLayout>
 
