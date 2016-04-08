@@ -237,7 +237,7 @@ public class Login extends AppCompatActivity {
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString("id",th);
                     editor.commit();
-                    Toast.makeText(getBaseContext(), "Connexion réuissie" , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Connexion réussie" , Toast.LENGTH_LONG).show();
                     Intent myIntent = new Intent(Login.this, Interface.class);
                     startActivity(myIntent);
 

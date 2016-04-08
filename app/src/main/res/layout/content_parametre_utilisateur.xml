@@ -28,7 +28,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/surname_p"
+                android:layout_above="@+id/lastname_p"
                 android:gravity="center">
 
                 <ImageView
@@ -81,14 +81,14 @@
                 <EditText
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/name_p"
+                    android:id="@+id/firstname_p"
                     android:textColorHint="#ffffff"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
                     android:layout_below="@+id/editText5"
                     android:layout_alignEnd="@+id/editText5"
                     android:gravity="center"
-                    android:hint="Name" />
+                    android:hint="Firstname" />
             </LinearLayout>
 
             <LinearLayout
@@ -101,14 +101,14 @@
                 <EditText
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/surname_p"
+                    android:id="@+id/lastname_p"
                     android:textColorHint="#ffffff"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
-                    android:layout_below="@+id/name_p"
-                    android:layout_alignEnd="@+id/name_p"
+                    android:layout_below="@+id/firstname_p"
+                    android:layout_alignEnd="@+id/firstname_p"
                     android:gravity="center"
-                    android:hint="Surname" />
+                    android:hint="Lastname" />
             </LinearLayout>
 
             <LinearLayout
@@ -117,13 +117,13 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_alignBottom="@+id/male_p"
-                android:id="@+id/email_p">
+                android:id="@+id/layout_email">
 
                 <EditText
                     android:textColorHint="#ffffff"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/editText2"
+                    android:id="@+id/email_p"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
                     android:layout_below="@+id/password2_p"
@@ -221,8 +221,8 @@
                     android:textColorHint="#ffffff"
                     android:textAlignment="center"
                     android:textColor="#ffffff"
-                    android:layout_below="@+id/surname_p"
-                    android:layout_alignEnd="@+id/surname_p"
+                    android:layout_below="@+id/lastname_p"
+                    android:layout_alignEnd="@+id/lastname_p"
                     android:hint="Confirm password" />
             </LinearLayout>
 
