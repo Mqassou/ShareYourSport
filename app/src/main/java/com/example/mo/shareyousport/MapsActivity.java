@@ -218,6 +218,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 SportEvent markerEvent = userEvents.findSportByCoord(latLng);
 
+                //AJOUTER SANS TEST
+                TextView tvSports = ((TextView)v.findViewById(R.id.sport_practice));
+                tvSports.setText(markerEvent.getTypeSport());
+                //AJOUTER SANS TEST
+
                 TextView tvParticipants = ((TextView)v.findViewById(R.id.participants_number));
                 tvParticipants.setText(markerEvent.getPlayerIn()+"/"+markerEvent.getPlayersNeeded());
 
@@ -232,6 +237,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 TextView tvAddress = ((TextView)v.findViewById(R.id.address));
                 tvAddress.setText(markerEvent.getAdress());
+
+                TextView tvCity = ((TextView)v.findViewById(R.id.city));
+                tvCity.setText(markerEvent.getCity());
+
+                /*à mettre en place quand la récuération de la date et heure se fera au bon format
+                TextView tvHour = ((TextView)v.findViewById(R.id.hour));
+                tvHour.setText(markerEvent.getHour());*/
 
                 // Returning the view containing InfoWindow contents
                 return v;

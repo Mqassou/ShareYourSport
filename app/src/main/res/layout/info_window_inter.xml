@@ -9,6 +9,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
+        <!-- //AJOUTER SANS TEST -->
+        <TextView
+            android:id="@+id/sport_practice"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            />
+
+
     <TextView
         android:id="@+id/participants"
         android:text="@string/info_window_participants"
@@ -79,6 +91,23 @@
             android:layout_height="wrap_content"
             android:textSize="12dp"
             />
+
+        <TextView
+            android:id="@+id/city"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            />
+
+       <!-- a mettre en place quand la récupération de l'heure sera au bon format
+       <TextView
+            android:id="@+id/hour"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            /> -->
 
         <ImageButton
             android:layout_width="wrap_content"
