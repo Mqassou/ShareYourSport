@@ -262,13 +262,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Toast.makeText(this, marker.getTitle(), Toast.LENGTH_LONG).show();
+        LatLng currentPos = marker.getPosition();
+
+        //SportEvent currentMarker = userEvents.findSportByCoord(currentPos);
+
+
+        Toast.makeText(getBaseContext(), marker.getTitle(), Toast.LENGTH_LONG).show();
+        PostClassJoin requetteHttp2 = new PostClassJoin();
+        requetteHttp2.execute(marker.getTitle());
+
     }
 
 
     //Methode utilisée pour créer un marker avec les informations d'un objet SportEvent
-    private void addMarker(GoogleMap map, double lat, double lon) {
-        map.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
+    private void addMarker(GoogleMap map,String idEvent, double lat, double lon) {
+        map.addMarker(new MarkerOptions().title(new String(idEvent)).position(new LatLng(lat, lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
     }
 
     //Methode pour récupérer la position de l'utilisateur au cas où elle changerait pendant l'utilisation
@@ -433,9 +441,117 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 intermUserEvent = it.next();
 
-                addMarker(mMap, intermUserEvent.getCoord().latitude, intermUserEvent.getCoord().longitude);
+                addMarker(mMap, Integer.toString(intermUserEvent.getId()), intermUserEvent.getCoord().latitude, intermUserEvent.getCoord().longitude);
                 // sydney.showInfoWindow();
             }
+        }
+
+
+    }
+
+
+
+    private class PostClassJoin extends AsyncTask<String, Void, String> {
+        final ProgressDialog progressDialog = new ProgressDialog(MapsActivity.this, R.style.AppTheme_Dark_Dialog);
+        String eventToJoin;
+        @Override //Cette méthode s'execute en premier, elle ouvre une simple boite de dialogue
+        protected void onPreExecute() {
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
+        }
+
+        protected String doInBackground(String... strings) {
+
+            eventToJoin = strings[0];
+            ConnectivityManager check = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo[] info = check.getAllNetworkInfo();
+            for (int i = 0; i < info.length; i++) {
+                if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+
+                    String result;
+                    try {
+
+
+                        System.out.println("ON EST DAAAAAAANNNNNNNNNNNSSSSSSSSSS LLLLLLEEEEEEEE TTTTTTTRRRRRRRRYYYYYYY");
+
+                        URL url = new URL("http://humanapp.assos.efrei.fr/shareyoursport/script/shareyoursportcontroller.php");
+                        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                        connection.setConnectTimeout(3000);
+                        connection.setRequestMethod("POST");
+                        connection.setDoInput(true);
+                        connection.setDoOutput(true);
+
+                        /// Mise en place des differents parametre necessaire ////
+
+                        Uri.Builder builder = new Uri.Builder()
+                                .appendQueryParameter("OBJET", "joinEvent")
+                                .appendQueryParameter("ID_Event", eventToJoin);
+
+                        String query = builder.build().getEncodedQuery();
+
+                        OutputStream os = connection.getOutputStream();
+                        BufferedWriter writer = new BufferedWriter(
+                                new OutputStreamWriter(os, "UTF-8"));
+                        writer.write(query);
+                        writer.flush();
+                        writer.close();
+                        os.close();
+
+                        connection.connect();
+
+
+                        InputStream inputStream = connection.getInputStream();
+
+                        // InputStreamOperations est une classe complémentaire:
+                        //Elle contient une méthode InputStreamToString.
+
+                        result = InputStreamOperations.InputStreamToString(inputStream);
+
+
+
+                        try {
+
+                            JSONObject object = new JSONObject(result);
+                            connection.disconnect();
+                            return object.getString("value"); // On retourne true ou false
+
+
+                        } catch (JSONException e) {
+                            Log.e("log_tag", "Error parsing data " + e.toString());
+
+                        }
+                    }
+                    catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (ProtocolException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            return "false";
+        }
+
+        protected void onPostExecute(String th) {
+            progressDialog.dismiss();
+            SportEvent intermUserEvent;
+            if(th.equals("true")){
+                Toast.makeText(getBaseContext(), "Evenement Rejoins", Toast.LENGTH_LONG).show();
+                Intent myIntent = new Intent(MapsActivity.this, Interface.class);
+                startActivity(myIntent);
+            }
+            else{
+                Toast.makeText(getBaseContext(), "Evenement impossible à rejoindre", Toast.LENGTH_LONG).show();
+            }
+
+
+
         }
 
 
