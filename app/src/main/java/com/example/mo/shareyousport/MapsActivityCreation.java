@@ -283,8 +283,8 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
         Toast.makeText(this, marker.getTitle(), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(MapsActivityCreation.this, Creation.class);
         intent.putExtra("donnée", markerField.getName());
-        // intent.putExtra("latitude", markerField.getCoord().latitude);
-        //  intent.putExtra("latitude", markerField.getCoord().longitude);
+        intent.putExtra("latitude", markerField.getCoord().latitude);
+        intent.putExtra("longitude", markerField.getCoord().longitude);
         intent.putExtra("adresse", markerField.getAdress());
         intent.putExtra("ville", markerField.getCity());
         startActivity(intent);

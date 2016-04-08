@@ -4,6 +4,7 @@ package com.example.mo.shareyousport;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -120,6 +121,7 @@ import java.util.Vector;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, OnInfoWindowClickListener, LocationListener {
     private SportEventGroup userEvents = new SportEventGroup();
+
 
     //mettre en place en methode pour récupérer tous les évenements en bdd ici
 
@@ -266,8 +268,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //SportEvent currentMarker = userEvents.findSportByCoord(currentPos);
 
-
-        Toast.makeText(getBaseContext(), marker.getTitle(), Toast.LENGTH_LONG).show();
         PostClassJoin requetteHttp2 = new PostClassJoin();
         requetteHttp2.execute(marker.getTitle());
 
@@ -283,7 +283,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 12);
         mMap.animateCamera(cameraUpdate);
         //locationManager.removeUpdates(this);
     }
@@ -307,6 +307,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private class PostClassMapJoin extends AsyncTask<SportEventGroup, SportEventGroup, SportEventGroup> {
         final ProgressDialog progressDialog = new ProgressDialog(MapsActivity.this, R.style.AppTheme_Dark_Dialog);
         SportEventGroup myEvents;
+
+
         @Override //Cette méthode s'execute en premier, elle ouvre une simple boite de dialogue
         protected void onPreExecute() {
             progressDialog.setIndeterminate(true);
@@ -324,8 +326,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     SportFieldGroup testField = new SportFieldGroup();
                     String result;
                     try {
-
-
                         System.out.println("ON EST DAAAAAAANNNNNNNNNNNSSSSSSSSSS LLLLLLEEEEEEEE TTTTTTTRRRRRRRRYYYYYYY");
 
                         URL url = new URL("http://humanapp.assos.efrei.fr/shareyoursport/script/shareyoursportcontroller.php");
@@ -454,6 +454,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private class PostClassJoin extends AsyncTask<String, Void, String> {
         final ProgressDialog progressDialog = new ProgressDialog(MapsActivity.this, R.style.AppTheme_Dark_Dialog);
         String eventToJoin;
+
+        SharedPreferences sharedpreferences  = getSharedPreferences("id_utilisateur", Context.MODE_PRIVATE);
+        String idUser = sharedpreferences.getString("id", "");
+
+
         @Override //Cette méthode s'execute en premier, elle ouvre une simple boite de dialogue
         protected void onPreExecute() {
             progressDialog.setIndeterminate(true);
@@ -463,7 +468,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         protected String doInBackground(String... strings) {
 
+
             eventToJoin = strings[0];
+
             ConnectivityManager check = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo[] info = check.getAllNetworkInfo();
             for (int i = 0; i < info.length; i++) {
@@ -483,10 +490,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         connection.setDoOutput(true);
 
                         /// Mise en place des differents parametre necessaire ////
-
                         Uri.Builder builder = new Uri.Builder()
                                 .appendQueryParameter("OBJET", "joinEvent")
-                                .appendQueryParameter("ID_Event", eventToJoin);
+                                .appendQueryParameter("ID_Event", eventToJoin)
+                                .appendQueryParameter("ID_User", idUser);
+
 
                         String query = builder.build().getEncodedQuery();
 
