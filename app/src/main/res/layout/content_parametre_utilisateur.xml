@@ -204,7 +204,8 @@
                     android:textColor="#ffffff"
                     android:layout_below="@+id/password2_p"
                     android:layout_centerHorizontal="true"
-                    android:hint="New password" />
+                    android:hint="New password"
+                    android:inputType="textPassword" />
             </LinearLayout>
 
             <LinearLayout
@@ -223,7 +224,8 @@
                     android:textColor="#ffffff"
                     android:layout_below="@+id/lastname_p"
                     android:layout_alignEnd="@+id/lastname_p"
-                    android:hint="Confirm password" />
+                    android:hint="Confirm password"
+                    android:inputType="textPassword" />
             </LinearLayout>
 
             <LinearLayout

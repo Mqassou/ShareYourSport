@@ -1,6 +1,8 @@
 package com.example.mo.shareyousport;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,9 +11,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -27,33 +32,159 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class parametre_utilisateur extends AppCompatActivity {
-     SharedPreferences sharedpreferences;
-      String id_utilisateur;
-    final  String RECUPERER="recupererdonnees";
-     final  String UPDATE="mettreajour";
-    EditText pseudo, nom, prenom,email,tel,adresse,ville,password, password_confirm;
+    SharedPreferences sharedpreferences;
+    String id_utilisateur;
+    PostClass requeteHttp = new PostClass();
+    PostClass requeteHttp_modifie ;
+    final String RECUPERER = "recupererdonnees";
+    final String UPDATE = "mettreajour";
+    EditText pseudo, nom, prenom, email, tel, adresse, ville;
     Button date_de_naissance;
+    ImageView back, valider;
     CheckBox sexe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parametre_utilisateur);
-        sharedpreferences  =getSharedPreferences("id_utilisateur", Context.MODE_PRIVATE);
-        id_utilisateur =sharedpreferences.getString("id","");
+        sharedpreferences = getSharedPreferences("id_utilisateur", Context.MODE_PRIVATE);
+        id_utilisateur = sharedpreferences.getString("id", "");
 
-        PostClass requeteHttp=new PostClass();
-        requeteHttp.execute(id_utilisateur,RECUPERER);
+
+        requeteHttp.execute(id_utilisateur, RECUPERER);
+
+
+        ////////////////////  Choix de la date de naissance ///////////////////////////////////
+
+        date_de_naissance = (Button) findViewById(R.id.naissance_p);
+        date_de_naissance.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                //To show current date in the datepicker
+                Calendar mcurrentDate = Calendar.getInstance();
+                int mYear = mcurrentDate.get(Calendar.YEAR);
+                int mMonth = mcurrentDate.get(Calendar.MONTH);
+                int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog mDatePicker;
+                mDatePicker = new DatePickerDialog(parametre_utilisateur.this, new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                        // TODO Auto-generated method stub
+                    /*      Your code   to get date and time    */
+                        selectedmonth = selectedmonth + 1;
+
+                        if (selectedday < 10 && selectedmonth < 10) {
+                            date_de_naissance.setText("0" + selectedday + "/0" + selectedmonth + "/" + selectedyear);
+                        } else if (selectedday < 10 && selectedmonth >= 10) {
+                            date_de_naissance.setText("0" + selectedday + "/" + selectedmonth + "/" + selectedyear);
+                        } else if (selectedday >= 10 && selectedmonth < 10) {
+                            date_de_naissance.setText("" + selectedday + "/0" + selectedmonth + "/" + selectedyear);
+                        } else if (selectedday >= 10 && selectedmonth >= 10) {
+                            date_de_naissance.setText("" + selectedday + "/" + selectedmonth + "/" + selectedyear);
+                        }
+                    }
+                }, mYear, mMonth, mDay);
+                mDatePicker.setTitle("Select Date");
+                mDatePicker.show();
+            }
+        });
+
+        //////////////////// Fin Choix de la date de naissance ///////////////////////////////////
+
+        back = (ImageView) findViewById(R.id.back_p);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(parametre_utilisateur.this, Interface.class);
+                startActivity(myIntent);
+                finish();
+            }
+        });
+
+
+        valider = (ImageView) findViewById(R.id.valider_p);
+        valider.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String nom = ((EditText) findViewById(R.id.lastname_p)).getText().toString();
+
+                String prenom = ((EditText) findViewById(R.id.firstname_p)).getText().toString();
+
+                String pseudo = ((EditText) findViewById(R.id.pseudo_p)).getText().toString();
+
+                String adresse = ((EditText) findViewById(R.id.adresse_p)).getText().toString();
+
+                String ville = ((EditText) findViewById(R.id.ville_p)).getText().toString();
+
+                String password = ((EditText) findViewById(R.id.password_p)).getText().toString();
+
+                String password_confirm = ((EditText) findViewById(R.id.password2_p)).getText().toString();
+                Boolean password_modifie = false; // savoir si le mot de pass a été modifié ou pas
+
+                if (!password.equals("") && !password_confirm.equals("")) {
+                    if (!password.equals(password_confirm)) {
+                        ((EditText) findViewById(R.id.password2_p)).setError("Les mots de passes ne sont pas identiques");
+                        return;
+                    } else if (password.equals(password_confirm)) {
+                        if (password.length() <= 4) {
+                            ((EditText) findViewById(R.id.password2_p)).setError("Le mot de passe est trop court");
+                            return;
+                        }
+                        password_modifie = true;
+                    }
+                }
+
+                String date_de_naissance = ((Button) findViewById(R.id.naissance_p)).getText().toString();
+
+                String email = ((EditText) findViewById(R.id.email_p)).getText().toString();
+
+                String tel = ((EditText) findViewById(R.id.tel_p)).getText().toString();
+
+                String sexe = "";
+                boolean val=((CheckBox) findViewById(R.id.female_p)).isChecked();
+                boolean va=((CheckBox) findViewById(R.id.male_p)).isChecked();
+
+                if (((CheckBox) findViewById(R.id.male_p)).isChecked()) {
+                    sexe = "homme";
+                } else if (((CheckBox) findViewById(R.id.female_p)).isChecked()) {
+                    sexe = "femme";
+                }else {
+                    sexe = "aucun";
+                }
+
+                if (val==true && va==true) {
+                    ((CheckBox) findViewById(R.id.female_p)).setError("Un seul choix possible");
+                    return;
+                }
+
+
+                System.out.println("\n\n\n\n Valeur de val et va " +val + " "+ va+"\n\n\n\n");
+                requeteHttp_modifie = new PostClass();
+
+                if (password_modifie) {
+                    requeteHttp_modifie.execute(id_utilisateur, UPDATE, nom, prenom, pseudo, adresse, ville, password_confirm, date_de_naissance, email, tel, sexe,"true");
+
+                } else {
+                    requeteHttp_modifie.execute(id_utilisateur, UPDATE, nom, prenom, pseudo, adresse, ville,password_confirm, date_de_naissance, email, tel, sexe,"false");
+                }
+
+            }
+        });
     }
+
     private class PostClass extends AsyncTask<String, Void, HashMap> {
 
 
         @Override//Cette méthode s'execute en deuxième
         protected HashMap doInBackground(String... params) {
-            System.out.println("\n\n\n\n\n  MMMMMMAAAAAAARQUUUUUEUUUUUUUR 111111\n\n\n\n\n ");
+
             ConnectivityManager check = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo[] info = check.getAllNetworkInfo();
             for (int i = 0; i < info.length; i++) {
@@ -61,7 +192,7 @@ public class parametre_utilisateur extends AppCompatActivity {
                     String result;
 
                     try {
-                        System.out.println("\n\n\n\n\n  MMMMMMAAAAAAARQUUUUUEUUUUUUUR 2222222\n\n\n\n\n ");
+
                         /////////////////////////////// REQUETE HTTP /////////////////////
                         URL url = new URL("http://humanapp.assos.efrei.fr/shareyoursport/script/shareyoursportcontroller.php");
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -71,12 +202,11 @@ public class parametre_utilisateur extends AppCompatActivity {
                         connection.setDoOutput(true);
 
                         /// Mise en place des differents parametre necessaire ////
-                        if(params[1].equals(RECUPERER))
-                        {
-                            System.out.println("\n\n\n\n\n  MMMMMMAAAAAAARQUUUUUEUUUUUUUR 333333333\n\n\n\n\n ");
+                        if (params[1].equals(RECUPERER)) {
+
                             Uri.Builder builder = new Uri.Builder()
                                     .appendQueryParameter("OBJET", RECUPERER)
-                                    .appendQueryParameter("ID", params[0]) ;
+                                    .appendQueryParameter("ID", params[0]);
                             String query = builder.build().getEncodedQuery();
 
                             OutputStream os = connection.getOutputStream();
@@ -88,26 +218,25 @@ public class parametre_utilisateur extends AppCompatActivity {
                             os.close();
 
                             connection.connect();
-                            System.out.println("\n\n\n\n\n  MMMMMMAAAAAAARQUUUUUEUUUUUUUR 44444444\n\n\n\n\n ");
 
 
                             ///////////////////////////////BUFFERREADER/////////////////////
 
-                            Reader reader =new InputStreamReader(connection.getInputStream(), "UTF-8");
+                            Reader reader = new InputStreamReader(connection.getInputStream(), "UTF-8");
                             char[] buffer = new char[1024];
                             reader.read(buffer);  /// On recupere ce que nous a envoyés le fichier php
                             result = new String(buffer);
                             reader.close();
-                            System.out.println("\n\n\n\n\n  MMMMMMAAAAAAARQUUUUUEUUUUUUUR 555555\n\n\n\n\n ");
+
 
                             //////////////////////JSON////////////////////////////////////
                             try {
-                                System.out.println("\n\n\n\n\n  MMMMMMAAAAAAARQUUUUUEUUUUUUUR 666666\n\n\n\n\n ");
+
                                 JSONObject jObject = new JSONObject(result);
-                                System.out.println("\n\n\n\n\n  MMMMMMAAAAAAARQUUUUUEUUUUUUUR 77777777\n\n\n\n\n ");
+
 
                                 HashMap parametresUtilisateur = new HashMap();
-                                parametresUtilisateur.put("OBJET",RECUPERER);
+                                parametresUtilisateur.put("OBJET", RECUPERER);
                                 parametresUtilisateur.put("nom", jObject.getString("nom"));
                                 parametresUtilisateur.put("prenom", jObject.getString("prenom"));
                                 parametresUtilisateur.put("pseudo", jObject.getString("pseudo"));
@@ -118,13 +247,83 @@ public class parametre_utilisateur extends AppCompatActivity {
                                 parametresUtilisateur.put("tel", jObject.getString("tel"));
                                 parametresUtilisateur.put("sexe", jObject.getString("sexe"));
                                 connection.disconnect();
-                                System.out.println("\n\n\n\n\n  MMMMMMAAAAAAARQUUUUUEUUUUUUUR 8888888\n\n\n\n\n ");
+
                                 return parametresUtilisateur; // On retourne true ou false
 
 
                             } catch (JSONException e) {
                                 Log.e("log_tag", "Error parsing data " + e.toString());
-                                System.out.println("\n\n\n\n\n  MMMMMMAAAAAAARQUUUUUEUUUUUUUR JSOOOON\n\n\n\n\n ");
+
+                            }
+
+                            ///////////////// Code permettant de vérifier la connexion avecle server////////////////
+                  /*      if (connection.getResponseCode() == 200) {
+                            return   String.valueOf(connection.getResponseCode()) + " "+ connection.getResponseMessage();
+                        }
+
+                        return    String.valueOf(connection.getResponseCode()) + " "+ connection.getResponseMessage();
+                    */
+
+                        } else if (params[1].equals(UPDATE)) {
+
+                            Uri.Builder builder = new Uri.Builder()
+                                    .appendQueryParameter("OBJET", UPDATE)
+                                    .appendQueryParameter("ID", params[0])
+                                    .appendQueryParameter("NOM", params[2])
+                                    .appendQueryParameter("PRENOM", params[3])
+                                    .appendQueryParameter("PSEUDO", params[4])
+                                    .appendQueryParameter("ADRESSE", params[5])
+                                    .appendQueryParameter("VILLE", params[6])
+                                    .appendQueryParameter("PASSWORD", params[7])
+                                    .appendQueryParameter("DATE_DE_NAISSANCE", params[8])
+                                    .appendQueryParameter("EMAIL", params[9])
+                                    .appendQueryParameter("TEL", params[10])
+                                    .appendQueryParameter("SEXE", params[11])
+                                    .appendQueryParameter("MDP_MODIFIE", params[12]);
+
+                            String query = builder.build().getEncodedQuery();
+
+                            OutputStream os = connection.getOutputStream();
+                            BufferedWriter writer = new BufferedWriter(
+                                    new OutputStreamWriter(os, "UTF-8"));
+                            writer.write(query);
+                            writer.flush();
+                            writer.close();
+                            os.close();
+
+                            connection.connect();
+
+
+                            ///////////////////////////////BUFFERREADER/////////////////////
+
+                            Reader reader = new InputStreamReader(connection.getInputStream(), "UTF-8");
+                            char[] buffer = new char[1024];
+                            reader.read(buffer);  /// On recupere ce que nous a envoyés le fichier php
+                            result = new String(buffer);
+                            reader.close();
+
+
+                            //////////////////////JSON////////////////////////////////////
+                            try {
+                                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n MARQEUR !!!! MARQEUR !!!!MARQEUR !!!! 11111111111  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
+                                JSONObject jObject = new JSONObject(result);
+
+                    System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n MARQEUR !!!! MARQEUR !!!!MARQEUR !!!!222222222  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                                HashMap parametresUtilisateur = new HashMap();
+                                parametresUtilisateur.put("OBJET", UPDATE);
+                                parametresUtilisateur.put("value", jObject.getString("value"));
+
+                                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n EEEE !!!! EEE !!!!MARQEEEEEEEEEUR !!!!22222EEE2222 " + ((String)jObject.getString("value")) + " \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
+                                connection.disconnect();
+
+                                return parametresUtilisateur; // On retourne true ou false
+
+
+                            } catch (JSONException e) {
+                                Log.e("log_tag", "Error parsing data " + e.toString());
+
                             }
 
                             ///////////////// Code permettant de vérifier la connexion avecle server////////////////
@@ -138,7 +337,6 @@ public class parametre_utilisateur extends AppCompatActivity {
                         }
 
 
-
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     } catch (ProtocolException e) {
@@ -149,7 +347,7 @@ public class parametre_utilisateur extends AppCompatActivity {
 
                 }
             }
-            System.out.println("\n\n\n\n\n  MMMMMMAAAAAAARQUUUUUEUUUUUUUR 999999\n\n\n\n\n ");
+
             return null;
 
 
@@ -158,81 +356,102 @@ public class parametre_utilisateur extends AppCompatActivity {
         @Override // La troisème méthode qui s'execute en dernier
         // String th, est la valeur que nous a retournee doInBackground
         protected void onPostExecute(HashMap th) {
-            Toast.makeText(getBaseContext()," value : "+((String) th.get("nom")).equals("null"), Toast.LENGTH_LONG).show();
-        if(th!=null)
-        {
+
+            if (th != null) {
 
 
-            if(th.get("OBJET").equals(RECUPERER))
-            {
+                if (th.get("OBJET").equals(RECUPERER)) {
 
-                if(th.get("nom")!=null|| !((String) th.get("nom")).isEmpty() ||((String) th.get("nom")).equals("null")!=true )
-                {
-                    nom=(EditText) findViewById(R.id.lastname_p);
-                    nom.setHint((String) th.get("nom"));
+                    if (th.get("nom") != null || !((String) th.get("nom")).isEmpty()) {
+                        nom = (EditText) findViewById(R.id.lastname_p);
+                        if ((((String) th.get("nom")).equals("null")) == false) {
+                            nom.setText((String) th.get("nom"));
+                        }
 
-                }
-                if(!th.get("prenom").equals("") || th.get("prenom")!=null || th.get("prenom").equals("null")!=true )
-                {
-                    prenom=(EditText) findViewById(R.id.firstname_p);
-                    prenom.setHint((String) th.get("prenom"));
-                }
-                if(!th.get("pseudo").equals("") || th.get("pseudo")!=null || th.get("pseudo").equals("null")!=true )
-                {
-                    pseudo=(EditText) findViewById(R.id.pseudo_p);
-                    pseudo.setHint((String) th.get("pseudo"));
-                }
-                if(!th.get("adresse").equals("") || th.get("adresse")!=null || th.get("adresse").equals("null")!=true)
-                {
-                    adresse=(EditText) findViewById(R.id.adresse_p);
-                    adresse.setHint((String) th.get("adresse"));
-                }
-                if(!th.get("ville").equals("") || th.get("ville")!=null|| th.get("ville").equals("null")!=true )
-                {
-                    ville=(EditText) findViewById(R.id.ville_p);
-                    ville.setHint((String) th.get("ville"));
-                }
-                if(!th.get("date_de_naissance").equals("") || th.get("date_de_naissance")!=null || th.get("date_de_naissance").equals("null")!=true)
-                {
-                    date_de_naissance=(Button) findViewById(R.id.naissance_p);
-                    date_de_naissance.setHint((String) th.get("date_de_naissance"));
-                }
-                if(!th.get("email").equals("") || th.get("email")!=null || th.get("email").equals("null")!=true)
-                {
-                    email=(EditText) findViewById(R.id.email_p);
-                    email.setHint((String) th.get("email"));
-                }
-                if(!th.get("tel").equals("") || th.get("tel")!=null || th.get("tel").equals("null")!=true)
-                {
-                    tel=(EditText) findViewById(R.id.tel_p);
-                    tel.setHint((String) th.get("tel"));
-                }
-                if(!th.get("sexe").equals("") || th.get("sexe")!=null || th.get("sexe").equals("null")!=true)
-                {
-
-                    if(th.get("sexe").equals("homme"))
-                    {
-                        sexe=(CheckBox) findViewById(R.id.male_p);
-                        sexe.setChecked(true);
                     }
-                    else if(th.get("sexe").equals("femme"))
-                    {
-                        sexe=(CheckBox) findViewById(R.id.female_p);
-                        sexe.setChecked(true);
+                    if (!th.get("prenom").equals("") || th.get("prenom") != null) {
+                        prenom = (EditText) findViewById(R.id.firstname_p);
+                        if ((((String) th.get("prenom")).equals("null")) == false) {
+                            prenom.setText((String) th.get("prenom"));
+                        }
+
+                    }
+                    if (!th.get("pseudo").equals("") || th.get("pseudo") != null) {
+                        pseudo = (EditText) findViewById(R.id.pseudo_p);
+                        if ((((String) th.get("pseudo")).equals("null")) == false) {
+                            pseudo.setText((String) th.get("pseudo"));
+                        }
+
+                    }
+                    if (!th.get("adresse").equals("") || th.get("adresse") != null) {
+                        adresse = (EditText) findViewById(R.id.adresse_p);
+                        if ((((String) th.get("adresse")).equals("null")) == false) {
+                            adresse.setText((String) th.get("adresse"));
+                        }
+
+                    }
+                    if (!th.get("ville").equals("") || th.get("ville") != null) {
+                        ville = (EditText) findViewById(R.id.ville_p);
+                        if ((((String) th.get("ville")).equals("null")) == false) {
+                            ville.setText((String) th.get("ville"));
+                        }
+
+                    }
+                    if (!th.get("date_de_naissance").equals("") || th.get("date_de_naissance") != null) {
+                        date_de_naissance = (Button) findViewById(R.id.naissance_p);
+                        if ((((String) th.get("date_de_naissance")).equals("null")) == false) {
+                            date_de_naissance.setText((String) th.get("date_de_naissance"));
+                        }
+
+                    }
+                    if (!th.get("email").equals("") || th.get("email") != null) {
+                        email = (EditText) findViewById(R.id.email_p);
+                        if ((((String) th.get("email")).equals("null")) == false) {
+                            email.setText((String) th.get("email"));
+                        }
+
+                    }
+                    if (!th.get("tel").equals("") || th.get("tel") != null) {
+                        tel = (EditText) findViewById(R.id.tel_p);
+
+                        if ((((String) th.get("tel")).equals("null")) == false) {
+                            tel.setText((String) th.get("tel"));
+                        }
+                    }
+                    if (!th.get("sexe").equals("") || th.get("sexe") != null) {
+
+                        if (th.get("sexe").equals("homme")) {
+                            sexe = (CheckBox) findViewById(R.id.male_p);
+                            sexe.setChecked(true);
+                        } else if (th.get("sexe").equals("femme")) {
+                            sexe = (CheckBox) findViewById(R.id.female_p);
+                            sexe.setChecked(true);
+                        }
+
                     }
 
                 }
-
+                else if(th.get("OBJET").equals(UPDATE))
+                {
+                    if(((String) th.get("value")).equals("true"))
+                    {
+                        Toast.makeText(getBaseContext(), "Mise à jour réussie !", Toast.LENGTH_LONG).show();
+                        requeteHttp_modifie.cancel(true);
+                        finish();
+                        startActivity(getIntent());
+                    }
+                    else
+                    {
+                        Toast.makeText(getBaseContext(), "Echec de la mise à jour  !", Toast.LENGTH_LONG).show();
+                    }
+                    requeteHttp_modifie.cancel(true);
+                }
+            } else {
+                Toast.makeText(getBaseContext(), "Erreur de connexion à vos données", Toast.LENGTH_LONG).show();
             }
-        }
-        else
-        {
-            Toast.makeText(getBaseContext(),"Erreur de connexion à vos données", Toast.LENGTH_LONG).show();
-        }
 
 
-        //
-
+            //
 
 
         }
