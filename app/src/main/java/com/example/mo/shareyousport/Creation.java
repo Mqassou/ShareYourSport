@@ -370,7 +370,7 @@ public class Creation extends AppCompatActivity {
         // Envoie de la requête http avec la method post à la base de données
         PostClass requeteHttp = new PostClass();
 
-        requeteHttp.execute(sport, lieuPratique, latitude, longitude, date, heuredebut, heurefin, nbrpersonne, checkbox);
+        requeteHttp.execute(sport, lieuPratique, latitude, longitude, date, heuredebut, heurefin, nbrpersonne, checkbox,adressField,cityField);
 
 
     }
@@ -444,7 +444,9 @@ public class Creation extends AppCompatActivity {
                                 .appendQueryParameter("HEUREDEBUT", params[5])
                                 .appendQueryParameter("HEUREFIN", params[6])
                                 .appendQueryParameter("NBRPERSONNE", params[7])
-                                .appendQueryParameter("CHECKBOX", params[8]);
+                                .appendQueryParameter("CHECKBOX", params[8])
+                                .appendQueryParameter("ADRESSE", params[9])
+                                 .appendQueryParameter("VILLE", params[10]);
                         String query = builder.build().getEncodedQuery();
 
                         OutputStream os = connection.getOutputStream();
