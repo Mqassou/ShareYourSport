@@ -112,6 +112,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 
 
@@ -141,6 +143,7 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
 
     private GoogleMap mMap;
 
+    private MyTimerTask taskService;
 
     private LocationManager locationManager;
 
@@ -182,6 +185,34 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
 
     }
 
+
+    class MyTimerTask extends TimerTask {
+        public void run() {
+            Intent myIntent = new Intent(MapsActivityCreation.this,EvenementService.class);
+            startService(myIntent);
+        }
+    }
+    public void displayNotification() {
+        int delay = 0;
+        taskService = new MyTimerTask();
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(taskService, delay, 10000);
+    }
+
+
+    @Override
+    protected void onPause( ) {
+        super.onPause();
+        taskService.cancel();
+
+    }
+
+    @Override
+    protected void onResume( ) {
+        super.onResume();
+        displayNotification();
+
+    }
 
     /**
      * Manipulates the map once available.

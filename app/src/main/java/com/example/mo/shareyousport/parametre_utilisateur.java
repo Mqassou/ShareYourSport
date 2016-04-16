@@ -34,19 +34,21 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class parametre_utilisateur extends AppCompatActivity {
-    SharedPreferences sharedpreferences;
-    String id_utilisateur;
-    PostClass requeteHttp = new PostClass();
-    PostClass requeteHttp_modifie ;
-    final String RECUPERER = "recupererdonnees";
-    final String UPDATE = "mettreajour";
-    EditText pseudo, nom, prenom, email, tel, adresse, ville;
-    Button date_de_naissance;
-    ImageView back, valider;
-    CheckBox sexe;
-
+    private SharedPreferences sharedpreferences;
+    private String id_utilisateur;
+    private PostClass requeteHttp = new PostClass();
+    private PostClass requeteHttp_modifie ;
+    private final String RECUPERER = "recupererdonnees";
+    private final String UPDATE = "mettreajour";
+    private EditText pseudo, nom, prenom, email, tel, adresse, ville;
+    private Button date_de_naissance;
+    private ImageView back, valider;
+    private CheckBox sexe;
+    private MyTimerTask taskService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,6 +179,34 @@ public class parametre_utilisateur extends AppCompatActivity {
 
             }
         });
+    }
+
+    class MyTimerTask extends TimerTask {
+        public void run() {
+            Intent myIntent = new Intent(parametre_utilisateur.this,EvenementService.class);
+            startService(myIntent);
+        }
+    }
+    public void displayNotification() {
+        int delay = 0;
+        taskService = new MyTimerTask();
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(taskService, delay, 10000);
+    }
+
+
+    @Override
+    protected void onPause( ) {
+        super.onPause();
+        taskService.cancel();
+
+    }
+
+    @Override
+    protected void onResume( ) {
+        super.onResume();
+        displayNotification();
+
     }
 
     private class PostClass extends AsyncTask<String, Void, HashMap> {

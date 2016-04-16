@@ -45,12 +45,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 
 public class Creation extends AppCompatActivity {
 
-
+    private MyTimerTask taskService;
     Button choixDusport,heuredebut,heurefin,dateevenement;
     ImageView _send;//boutton de validation du formulaire
 
@@ -288,6 +290,35 @@ public class Creation extends AppCompatActivity {
         });
 
     }
+
+    class MyTimerTask extends TimerTask {
+        public void run() {
+            Intent myIntent = new Intent(Creation.this,EvenementService.class);
+            startService(myIntent);
+        }
+    }
+    public void displayNotification() {
+        int delay = 0;
+        taskService = new MyTimerTask();
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(taskService, delay, 10000);
+    }
+
+
+    @Override
+    protected void onPause( ) {
+        super.onPause();
+        taskService.cancel();
+
+    }
+
+    @Override
+    protected void onResume( ) {
+        super.onResume();
+        displayNotification();
+
+    }
+
 
     public void creerEvenement(String _textPosition, Double _latField, Double _longField)
     {

@@ -111,6 +111,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 
 
@@ -124,6 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     //mettre en place en methode pour récupérer tous les évenements en bdd ici
+    private MyTimerTask taskService;
 
     private GoogleMap mMap;
 
@@ -157,6 +160,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this); //You can also use LocationManager.GPS_PROVIDER and LocationManager.PASSIVE_PROVIDER
     }
 
+
+
+    class MyTimerTask extends TimerTask {
+        public void run() {
+            Intent myIntent = new Intent(MapsActivity.this,EvenementService.class);
+            startService(myIntent);
+        }
+    }
+    public void displayNotification() {
+        int delay = 0;
+        taskService = new MyTimerTask();
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(taskService, delay, 10000);
+    }
+
+
+    @Override
+    protected void onPause( ) {
+        super.onPause();
+        taskService.cancel();
+
+    }
+
+    @Override
+    protected void onResume( ) {
+        super.onResume();
+        displayNotification();
+
+    }
 
     /**
      * Manipulates the map once available.
