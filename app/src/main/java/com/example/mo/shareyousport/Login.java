@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity {
     private static final String TAG = "Login";
     private static final int REQUEST_SIGNUP = 0;
     private String result_login = "false";
-     private  SharedPreferences sharedpreferences;
+    private SharedPreferences sharedpreferences;
 
     @Bind(R.id.input_email)
     EditText _emailText;
@@ -134,7 +134,7 @@ public class Login extends AppCompatActivity {
 
     // Classe qui contient 3 méthodes pour pouvoir effectuer une requete http
     // Ces requêtes nécessitent d'être effectuer dans un  thread
-    private class PostClass extends AsyncTask<String, Void, String> {
+    private class PostClass extends AsyncTask<String, Void, JSONObject> {
 
         final ProgressDialog progressDialog = new ProgressDialog(Login.this, R.style.AppTheme_Dark_Dialog);
 
@@ -146,7 +146,7 @@ public class Login extends AppCompatActivity {
         }
 
         @Override//Cette méthode s'execute en deuxième
-        protected String doInBackground(String... params) {
+        protected JSONObject doInBackground(String... params) {
 
             ConnectivityManager check = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo[] info = check.getAllNetworkInfo();
@@ -182,10 +182,9 @@ public class Login extends AppCompatActivity {
                         connection.connect();
 
 
-
                         ///////////////////////////////BUFFERREADER/////////////////////
 
-                        Reader reader =new InputStreamReader(connection.getInputStream(), "UTF-8");
+                        Reader reader = new InputStreamReader(connection.getInputStream(), "UTF-8");
                         char[] buffer = new char[50];
                         reader.read(buffer);  /// On recupere ce que nous a envoyés le fichier php
                         result = new String(buffer);
@@ -197,7 +196,7 @@ public class Login extends AppCompatActivity {
 
                             JSONObject object = new JSONObject(result);
                             connection.disconnect();
-                            return object.getString("value"); // On retourne true ou false
+                            return object; // On retourne true ou false
 
 
                         } catch (JSONException e) {
@@ -223,21 +222,30 @@ public class Login extends AppCompatActivity {
                 }
             }
 
-            return "false";
+            return null;
 
         }
 
         @Override // La troisème méthode qui s'execute en dernier
-                   // String th, est la valeur que nous a retournee doInBackground
-        protected void onPostExecute(String th) {
+        // String th, est la valeur que nous a retournee doInBackground
+        protected void onPostExecute(JSONObject th) {
             progressDialog.dismiss();
+
+            if (th != null) {
 
                 if (!th.equals("false")) {
                     sharedpreferences = getSharedPreferences("id_utilisateur", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString("id",th);
+
+                    try {
+                        editor.putString("id", th.getString("value"));
+                        editor.putString("total", th.getString("total"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                     editor.commit();
-                    Toast.makeText(getBaseContext(), "Connexion réussie" , Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Connexion réussie", Toast.LENGTH_LONG).show();
                     Intent myIntent = new Intent(Login.this, Interface.class);
                     startActivity(myIntent);
 
@@ -246,7 +254,7 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "Erreur de connexion ", Toast.LENGTH_LONG).show();
                 }
 
-
+            }
 
         }
 

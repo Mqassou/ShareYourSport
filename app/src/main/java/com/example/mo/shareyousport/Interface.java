@@ -11,14 +11,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Interface extends AppCompatActivity {
     private ImageView logo;
+    private MyTimerTask taskService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interface);
 
+       // displayNotification();// Service qui notifie la création d'evenement
 
         ImageView img = (ImageView) findViewById(R.id.create);
         img.setOnClickListener(new View.OnClickListener() {
@@ -28,6 +33,7 @@ public class Interface extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
+
 
         ImageView parametreUtilisateur = (ImageView) findViewById(R.id.paraUtil);
         parametreUtilisateur.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +54,36 @@ public class Interface extends AppCompatActivity {
             }
         });
     }
+
+    class MyTimerTask extends TimerTask {
+        public void run() {
+            Intent myIntent = new Intent(Interface.this,EvenementService.class);
+            startService(myIntent);
+        }
+    }
+    public void displayNotification() {
+        int delay = 0;
+        taskService = new MyTimerTask();
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(taskService, delay, 10000);
+    }
+
+
+    @Override
+    protected void onPause( ) {
+        super.onPause();
+       taskService.cancel();
+
+    }
+
+    @Override
+    protected void onResume( ) {
+        super.onResume();
+      displayNotification();
+
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -305,16 +305,16 @@ public class parametre_utilisateur extends AppCompatActivity {
 
                             //////////////////////JSON////////////////////////////////////
                             try {
-                                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n MARQEUR !!!! MARQEUR !!!!MARQEUR !!!! 11111111111  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
 
                                 JSONObject jObject = new JSONObject(result);
 
-                    System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n MARQEUR !!!! MARQEUR !!!!MARQEUR !!!!222222222  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
                                 HashMap parametresUtilisateur = new HashMap();
                                 parametresUtilisateur.put("OBJET", UPDATE);
                                 parametresUtilisateur.put("value", jObject.getString("value"));
 
-                                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n EEEE !!!! EEE !!!!MARQEEEEEEEEEUR !!!!22222EEE2222 " + ((String)jObject.getString("value")) + " \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
 
                                 connection.disconnect();
 
