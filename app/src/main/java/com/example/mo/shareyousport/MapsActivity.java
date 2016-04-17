@@ -358,7 +358,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     SportFieldGroup testField = new SportFieldGroup();
                     String result;
                     try {
-                        System.out.println("ON EST DAAAAAAANNNNNNNNNNNSSSSSSSSSS LLLLLLEEEEEEEE TTTTTTTRRRRRRRRYYYYYYY");
+
 
                         URL url = new URL("http://humanapp.assos.efrei.fr/shareyoursport/script/shareyoursportcontroller.php");
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -399,7 +399,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 reader.close();*/
 
                         try{
-                            System.out.println("ON EST COOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNNNNNNNEEEEEEEECCCCCCCCCTTTTTTTTEEEEEEEE");
+
 
 
                             //JSONArray array = new JSONArray(result);
@@ -417,7 +417,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             LatLng coordInter;
                             // Pour tous les objets on récupère les infos
                             for (int j = 0; j < array.length(); j++) {
-                                System.out.println("ON EST DANS LA BOUUUUUUUUUUUUUUUUUCCLLLLLLLLLEEEEEEEEEE");
+
 
                                 // On récupère un objet JSON du tableau
                                 //JSONObject obj = array.getJSONObject(j);
