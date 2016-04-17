@@ -255,6 +255,9 @@ public class Login extends AppCompatActivity {
                 }
 
             }
+            else {
+                Toast.makeText(getBaseContext(), "Erreur de connexion ", Toast.LENGTH_LONG).show();
+            }
 
         }
 
