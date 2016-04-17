@@ -130,7 +130,7 @@ public class EvenementService extends IntentService {
                 }
             }
 
-            return "";
+            return null;
 
         }
 
@@ -164,6 +164,14 @@ public class EvenementService extends IntentService {
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString("total",th);
                     editor.commit();
+                }
+                else if(nouveauTotal<ancienTotal)
+                {
+
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("total",th);
+                    editor.commit();
+
                 }
 
 
