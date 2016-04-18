@@ -143,7 +143,12 @@ public class EvenementService extends IntentService {
                 sharedpreferences = getSharedPreferences("id_utilisateur", Context.MODE_PRIVATE);
                 total = sharedpreferences.getString("total", "");
 
-                int ancienTotal=Integer.parseInt(total);
+                int ancienTotal=0;
+                if(!total.equals(""))
+                {
+                    ancienTotal=Integer.parseInt(total);
+                }
+
                 int  nouveauTotal=Integer.parseInt(th);
 
                 if(nouveauTotal>ancienTotal)
