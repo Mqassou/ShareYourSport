@@ -148,7 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Utilisé pour récupérer la position de l'utilisateur
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
+
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -203,34 +203,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
        // SportEvent intermUserEvent;
         mMap = googleMap;
-        //Création d'un evenement test
-        //userEvents.addSports(new SportEvent(0, "Stade de Deuil", "6 Rue Jean Bouin, 95170","Deuil-la-Barre" , new LatLng(48.968628, 2.3222098999999616), 11, 1, true,"Basket"));
-//Communication php
-        /*
 
-
-        /* Test inutilisé désormais
-        mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
-         Add a marker in Sydney and move the camera
-        LatLng SYDNEY = new LatLng(-34, 151);
-        Marker sydney = mMap.addMarker(new MarkerOptions().position(SYDNEY);
-        */
-
-
-        //Méthode utilisé pour parcourir l'ensemble des évenements existants
-        /*Iterator<SportEvent> it = userEvents.iterator();
-        while (it.hasNext()) {
-
-            intermUserEvent = it.next();
-
-            addMarker(mMap, intermUserEvent.getCoord().latitude, intermUserEvent.getCoord().longitude);
-            // sydney.showInfoWindow();
-        }*/
-
-
-        /* Auparavant utilisé pour adapter la taille de l'infoWindow
-        mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
-        */
         // Setting a custom info window adapter for the google map
         googleMap.setInfoWindowAdapter(new InfoWindowAdapter() {
 
@@ -291,7 +264,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(this);
 
 
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(SYDNEY));
     }
 
     @Override
@@ -392,17 +364,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         result = InputStreamOperations.InputStreamToString(inputStream);
 
-                /*Reader reader = new InputStreamReader(connection.getInputStream(), "UTF-8");
-                char[] buffer = new char[1024];
-                reader.read(buffer);  /// On recupere ce que nous a envoyés le fichier php
-                result = new String(buffer);
-                reader.close();*/
 
                         try{
 
 
 
-                            //JSONArray array = new JSONArray(result);
 
 
 
@@ -423,7 +389,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 //JSONObject obj = array.getJSONObject(j);
                                 JSONObject obj = new JSONObject(array.getString(j));
                                 SportEvent events = new SportEvent();
-                                // On fait le lien Terrain - Objet JSON
+                                // On fait le lien Evenement - Objet JSON
 
                                 events.setId(obj.getInt("id"));
                                 events.setName(obj.getString("name"));
@@ -474,7 +440,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 intermUserEvent = it.next();
 
                 addMarker(mMap, Integer.toString(intermUserEvent.getId()), intermUserEvent.getCoord().latitude, intermUserEvent.getCoord().longitude);
-                // sydney.showInfoWindow();
             }
         }
 
@@ -512,7 +477,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     try {
 
 
-                        System.out.println("ON EST DAAAAAAANNNNNNNNNNNSSSSSSSSSS LLLLLLEEEEEEEE TTTTTTTRRRRRRRRYYYYYYY");
 
                         URL url = new URL("http://humanapp.assos.efrei.fr/shareyoursport/script/shareyoursportcontroller.php");
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -543,8 +507,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         InputStream inputStream = connection.getInputStream();
 
-                        // InputStreamOperations est une classe complémentaire:
-                        //Elle contient une méthode InputStreamToString.
 
                         result = InputStreamOperations.InputStreamToString(inputStream);
 

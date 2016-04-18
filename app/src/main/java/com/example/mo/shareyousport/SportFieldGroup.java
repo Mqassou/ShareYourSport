@@ -13,9 +13,6 @@ import java.util.Vector;
 public class SportFieldGroup implements Iterable<SportField>{
     Vector<SportField> allSports = new Vector<SportField>();
 
-    public void getAllSportEvent(){
-        //TODO quand la BDD sera prête
-    }
 
     public void addSports(SportField newSport){
         allSports.add(newSport);

@@ -172,17 +172,6 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this); //You can also use LocationManager.GPS_PROVIDER and LocationManager.PASSIVE_PROVIDER
-
-
-   /*     ImageButton ib = (ImageButton) findViewById(R.id.button_field);
-        ib.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-            }
-        });*/
-
     }
 
 
@@ -232,18 +221,6 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
 
 
 
-        /*SportField sports2 = new SportField();
-        sports2.setId(0);
-        sports2.setName("Stade de Deuil");
-        sports2.setAdress("6 Rue Jean Bouin, 95170");
-        sports2.setCity("Deuil La Barre");
-        LatLng coordInter2;
-        coordInter2 = new LatLng(48.968628, 2.3222098999999616);
-        sports2.setCoord(coordInter2);
-
-        userFields.add(sports2);*/
-
-        //userFields.add(new SportField(0, "Stade de Deuil", "6 Rue Jean Bouin, 95170"," Deuil La Barre", new LatLng(48.968628, 2.3222098999999616)));
 
         googleMap.setInfoWindowAdapter(new InfoWindowAdapter() {
 
@@ -265,10 +242,10 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
 
                 SportField markerField = userFields.findFieldByCoord(latLng);
 
-                //AJOUTER SANS TEST
+
                 TextView tvName = ((TextView)v.findViewById(R.id.localName_field));
                 tvName.setText(markerField.getName());
-                //AJOUTER SANS TEST
+
 
                 TextView tvAdress = ((TextView)v.findViewById(R.id.address_field));
                 tvAdress.setText(markerField.getAdress());
@@ -290,23 +267,10 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
         PostClassCreate requetteHttp = new PostClassCreate();
         requetteHttp.execute(userFields);
 
-        //mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));
-        // Add a marker in Sydney and move the camera
-        //LatLng SYDNEY = new LatLng(-34, 151);
-        //Marker sydney = mMap.addMarker(new MarkerOptions().position(SYDNEY);
-        /*Iterator<SportField> it = userFields.iterator();
-        while (it.hasNext()) {
 
-            intermUserField = (SportField) it.next();
-
-            addMarker(mMap, intermUserField.getCoord().latitude, intermUserField.getCoord().longitude, intermUserField.getName());
-            // sydney.showInfoWindow();
-        }
-        //mMap.setInfoWindowAdapter(new MapsWindowInter(getLayoutInflater()));*/
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnMarkerClickListener(this);
 
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(SYDNEY));
     }
 
     @Override
@@ -380,8 +344,6 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
                     try {
 
 
-                        System.out.println("ON EST DAAAAAAANNNNNNNNNNNSSSSSSSSSS LLLLLLEEEEEEEE TTTTTTTRRRRRRRRYYYYYYY");
-
                         URL url = new URL("http://humanapp.assos.efrei.fr/shareyoursport/script/shareyoursportcontroller.php");
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                         connection.setConnectTimeout(3000);
@@ -414,17 +376,11 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
 
                         result = InputStreamOperations.InputStreamToString(inputStream);
 
-                /*Reader reader = new InputStreamReader(connection.getInputStream(), "UTF-8");
-                char[] buffer = new char[1024];
-                reader.read(buffer);  /// On recupere ce que nous a envoyés le fichier php
-                result = new String(buffer);
-                reader.close();*/
+
 
                         try{
-                        System.out.println("ON EST COOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONNNNNNNNNEEEEEEEECCCCCCCCCTTTTTTTTEEEEEEEE");
 
 
-                        //JSONArray array = new JSONArray(result);
 
 
 
@@ -439,10 +395,8 @@ public class MapsActivityCreation extends FragmentActivity implements OnMapReady
                         LatLng coordInter;
                         // Pour tous les objets on récupère les infos
                         for (int j = 0; j < array.length(); j++) {
-                            System.out.println("ON EST DANS LA BOUUUUUUUUUUUUUUUUUCCLLLLLLLLLEEEEEEEEEE");
 
                             // On récupère un objet JSON du tableau
-                            //JSONObject obj = array.getJSONObject(j);
                             JSONObject obj = new JSONObject(array.getString(j));
                             SportField sports = new SportField();
                             // On fait le lien Terrain - Objet JSON

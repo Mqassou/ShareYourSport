@@ -47,11 +47,20 @@
             android:label="@string/title_activity_signup"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".navigation"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/AppTheme"></activity>
+        <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
         <activity
             android:name=".MapsActivityCreation"
             android:label="@string/title_activity_maps"></activity>
+
+        <activity
+            android:name=".navigation"
+            android:label="@string/title_activity_navigation"
+            android:theme="@style/AppTheme"></activity>
 
         <service
             android:name=".EvenementService"
