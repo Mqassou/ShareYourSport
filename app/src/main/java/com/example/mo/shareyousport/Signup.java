@@ -37,15 +37,15 @@ public class Signup extends AppCompatActivity {
     private static final String TAG = "Signup";
 
     @Bind(value = R.id.input_name)
-    EditText _nameText;
+    private EditText _nameText;
     @Bind(value = R.id.input_email)
-    EditText _emailText;
+    private EditText _emailText;
     @Bind(value = R.id.input_password)
-    EditText _passwordText;
+    private EditText _passwordText;
     @Bind(value = R.id.btn_signup)
     Button _signupButton;
     @Bind(value = R.id.link_login)
-    TextView _loginLink;
+    private  TextView _loginLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

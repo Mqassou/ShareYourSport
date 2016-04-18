@@ -53,15 +53,15 @@ import butterknife.Bind;
 public class Creation extends AppCompatActivity {
 
     private MyTimerTask taskService;
-    Button choixDusport,heuredebut,heurefin,dateevenement;
-    ImageView _send;//boutton de validation du formulaire
+    private Button choixDusport,heuredebut,heurefin,dateevenement;
+    private ImageView _send;//boutton de validation du formulaire
 
-    String textPosition="" ;// Nom du lieu ou le sport sera pratique
+    private String textPosition="" ;// Nom du lieu ou le sport sera pratique
     //Latitude et Longitude
-    double latField=0 ;
-    double longField=0 ;
-    String cityField = null;
-    String adressField = null;
+    private double latField=0 ;
+    private double longField=0 ;
+    private String cityField = null;
+    private  String adressField = null;
 
      @Override
     protected void onCreate(Bundle savedInstanceState) {
