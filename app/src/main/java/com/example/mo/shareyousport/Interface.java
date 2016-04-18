@@ -23,7 +23,11 @@ public class Interface extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interface);
 
-       // displayNotification();// Service qui notifie la création d'evenement
+        // Pas encore implémentée
+        ImageView event = (ImageView) findViewById(R.id.event);
+        ImageView imageView5 = (ImageView) findViewById(R.id.imageView5);
+        event.setVisibility(View.INVISIBLE);
+        imageView5.setVisibility(View.INVISIBLE);
 
         ImageView img = (ImageView) findViewById(R.id.create);
         img.setOnClickListener(new View.OnClickListener() {
