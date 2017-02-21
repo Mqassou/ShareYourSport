@@ -74,6 +74,8 @@ public class Login extends AppCompatActivity {
                 // Start the Signup activity
                 Intent intent = new Intent(getApplicationContext(), Signup.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
+
+
             }
         });
     }
